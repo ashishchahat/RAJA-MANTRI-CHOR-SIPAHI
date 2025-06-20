@@ -1,0 +1,3708 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>राजा, मंत्री, चोर, सिपाही</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e, #4a148c, #880e4f);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: auto;
+            position: relative;
+        }
+        
+        /* Welcome Page Styles */
+        .welcome-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('game-background.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            perspective: 1000px;
+            transition: all 0.8s ease;
+            overflow: auto;
+        }
+        
+        .welcome-content {
+            text-align: center;
+            transform: translateZ(50px);
+            animation: float 3s infinite alternate;
+            padding: 30px;
+            margin-top: 60px;
+            width: 90%;
+            max-width: 900px;
+            background: transparent;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) translateZ(50px); }
+            100% { transform: translateY(-20px) translateZ(50px); }
+        }
+        
+        .welcome-title {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ff9800, #ffeb3b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            letter-spacing: 3px;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            color: #ffd600;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .welcome-options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .welcome-btn {
+            background: linear-gradient(45deg, #ff5722, #ff9800);
+            border: none;
+            border-radius: 50px;
+            padding: 20px 50px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 25px rgba(255, 87, 34, 0.8);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 300px;
+            width: 100%;
+        }
+        
+        .welcome-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .welcome-btn:hover::before {
+            left: 100%;
+        }
+        
+        .welcome-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(255, 87, 34, 1);
+        }
+        
+        /* Main Menu Styles */
+        .main-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(12, 16, 39, 0.9), rgba(26, 35, 126, 0.9)), url('menu-background.jpg') center/cover;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 900;
+            padding: 20px;
+            overflow: auto;
+        }
+        
+        .menu-title {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            background: linear-gradient(to right, #ff9800, #ffeb3b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+            font-family: 'Cinzel', serif;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .menu-item {
+            background: linear-gradient(45deg, rgba(26, 35, 126, 0.8), rgba(74, 20, 140, 0.8));
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 500px;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 215, 0, 0.7);
+        }
+        
+        .menu-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: #ffd600;
+        }
+        
+        .menu-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        /* Game Container Styles */
+        .game-container {
+            background: rgba(10, 15, 35, 0.85);
+            border-radius: 20px;
+            width: 95%;
+            max-width: 900px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+        
+        /* Game header with buttons */
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .game-exit-btn, .game-home-btn, .game-pause-btn {
+            background: linear-gradient(45deg, #ff5722, #ff9800);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 87, 34, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .game-exit-btn:hover, .game-home-btn:hover, .game-pause-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(255, 87, 34, 0.8);
+        }
+        
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #1a237e, #4a148c);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            border: 3px solid #ffd600;
+        }
+        
+        .popup-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ffd600;
+            text-align: center;
+            border-bottom: 2px solid #ff9800;
+            padding-bottom: 10px;
+        }
+        
+        .popup-content {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .popup-content ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        
+        .popup-content li {
+            margin-bottom: 10px;
+        }
+        
+        .popup-btn {
+            background: linear-gradient(45deg, #ff5722, #ff9800);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .popup-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.6);
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff5722;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.4rem;
+        }
+        
+        /* Manual Player Input Styles */
+        .player-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .player-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .player-label {
+            font-size: 1.2rem;
+            min-width: 80px;
+        }
+        
+        .player-name-input {
+            flex: 1;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffd600;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        /* Round Selection Styles */
+        .round-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .round-option {
+            background: linear-gradient(45deg, #283593, #3949ab);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .round-option:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 215, 0, 0.7);
+            background: linear-gradient(45deg, #3949ab, #4a5fc9);
+        }
+        
+        .round-option.selected {
+            background: linear-gradient(45deg, #ff6f00, #ff8f00);
+            border-color: #ffd600;
+            box-shadow: 0 0 15px rgba(255, 111, 0, 0.7);
+        }
+        
+        /* Countdown Styles */
+        .countdown {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(26, 35, 126, 0.7), rgba(74, 20, 140, 0.7));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .countdown-number {
+            font-size: 15rem;
+            color: #ffd600;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.6; }
+        }
+        
+        /* Existing Game Styles */
+        .info-box {
+            background: linear-gradient(45deg, #e65100, #ff6f00);
+            border-radius: 15px;
+            padding: 18px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ffd600;
+            box-shadow: 0 0 15px rgba(255, 111, 0, 0.7);
+            animation: pulse 3s infinite;
+            transition: all 0.5s ease;
+        }
+        
+        .info-box.correct {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A) !important;
+            border: 2px solid #4CAF50 !important;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.7) !important;
+        }
+        
+        .info-box.wrong {
+            background: linear-gradient(45deg, #f44336, #d32f2f) !important;
+            border: 2px solid #f44336 !important;
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.7) !important;
+        }
+        
+        .cards-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin: 30px 0;
+        }
+        
+        .cards-row {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        
+        .card-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 200px;
+            transition: transform 0.3s;
+            margin: 10px;
+            position: relative;
+        }
+        
+        .card-wrapper:hover {
+            transform: translateY(-10px);
+        }
+        
+        .player-info {
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+        
+        .player-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .player-points {
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        /* Cards 15% larger */
+        .card {
+            width: 172.5px;
+            height: 253px;
+            border-radius: 15px;
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: url('card-back.jpg') center/cover;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        
+        .card-back {
+            background: linear-gradient(45deg, #283593, #5c6bc0);
+            border: 3px solid #3949ab;
+        }
+        
+        .card-back i {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .card-front {
+            background: linear-gradient(45deg, #ff8f00, #ffca28);
+            transform: rotateY(180deg);
+            border: 3px solid #ffb300;
+        }
+        
+        .card-role {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1a237e;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+        
+        .card-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #1a237e;
+            text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5);
+        }
+        
+        .game-status {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .round-info {
+            font-size: 1.4rem;
+            background: rgba(255, 152, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid #ff9800;
+            /* Hide scrollbar */
+            overflow: hidden;
+        }
+        
+        .game-over {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .game-over.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .result-box {
+            background: linear-gradient(45deg, #1a237e, #4a148c);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 900px;
+            width: 95%;
+            border: 3px solid #ffd600;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        .result-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ffd600;
+        }
+        
+        .winner {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #69f0ae;
+        }
+        
+        .restart-btn {
+            background: linear-gradient(45deg, #ff5722, #ff9800);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
+            margin-top: 20px;
+        }
+        
+        .restart-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 87, 34, 0.6);
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background-color: #f00;
+            border-radius: 50%;
+            animation: fall 5s linear infinite;
+            z-index: 200;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .role-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .king-crown {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: gold;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+        }
+        
+        .results-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .results-table th {
+            background: linear-gradient(45deg, #ff6f00, #ff8f00);
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .results-table td {
+            padding: 10px 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .results-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .results-table .total-row {
+            background: rgba(41, 182, 246, 0.2);
+            font-weight: bold;
+        }
+        
+        .player-rankings {
+            width: 100%;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ranking-item.winner {
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.3), rgba(255, 187, 0, 0.2));
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            border: 2px solid gold;
+            animation: winner-glow 2s infinite alternate;
+        }
+        
+        @keyframes winner-glow {
+            0% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+            100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
+        }
+        
+        .ranking-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            z-index: 1;
+            transform: translateX(-100%);
+        }
+        
+        .ranking-item.winner::before {
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .rank-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            width: 50px;
+            text-align: center;
+            color: #ffd600;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+        
+        .player-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .player-rank-name {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #4fc3f7;
+        }
+        
+        .player-rank-points {
+            font-size: 1.3rem;
+            color: #69f0ae;
+        }
+        
+        .trophy-icon {
+            font-size: 2.5rem;
+            color: gold;
+            margin-left: 20px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+        
+        .point-system-icon {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 215, 0, 0.8);
+            color: #1a237e;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        
+        .point-system-icon:hover {
+            transform: scale(1.1);
+            background: rgba(255, 215, 0, 1);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #4caf50, #8bc34a);
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.5s forwards;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .current-points-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .current-points-table th {
+            background: linear-gradient(45deg, #ff6f00, #ff8f00);
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .current-points-table td {
+            padding: 10px 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .current-points-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .current-points-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .player-list {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .player-list-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #ffd600;
+        }
+        
+        .player-list-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .player-list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .player-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .player-status.connected {
+            background-color: #4caf50;
+        }
+        
+        .player-status.waiting {
+            background-color: #ff9800;
+        }
+        
+        .player-name-text {
+            flex: 1;
+        }
+        
+        .try-again-btn {
+            background: linear-gradient(45deg, #ff5722, #ff9800);
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        .invitation-btn {
+            background: linear-gradient(45deg, #2196F3, #21CBF3);
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        
+        /* Pause overlay */
+        .pause-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+            display: none;
+            backdrop-filter: blur(5px);
+        }
+        
+        .pause-text {
+            font-size: 4rem;
+            color: #ffd600;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+        
+        .resume-btn {
+            background: linear-gradient(45deg, #4caf50, #8bc34a);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .resume-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.6);
+        }
+        
+        /* Block background interaction */
+        .block-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 999;
+            display: none;
+        }
+        
+        /* Warning message */
+        .warning-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            z-index: 1001;
+            display: none;
+            box-shadow: 0 10px 25px rgba(244, 67, 54, 0.5);
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(5deg); }
+            50% { transform: translate(-50%, -50%) rotate(-5deg); }
+            75% { transform: translate(-50%, -50%) rotate(5deg); }
+        }
+        
+        .online-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .online-option {
+            background: linear-gradient(45deg, #283593, #3949ab);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .online-option:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 215, 0, 0.7);
+            background: linear-gradient(45deg, #3949ab, #4a5fc9);
+        }
+        
+        .online-option.selected {
+            background: linear-gradient(45deg, #ff6f00, #ff8f00);
+            border-color: #ffd600;
+            box-shadow: 0 0 15px rgba(255, 111, 0, 0.7);
+        }
+        
+        /* Player mode selection */
+        .player-mode-selection {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .mode-btn {
+            background: linear-gradient(45deg, #ff5722, #ff9800);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(45deg, #ff6f00, #ff8f00);
+            box-shadow: 0 0 10px rgba(255, 111, 0, 0.7);
+        }
+        
+        /* Player Turn Indicator */
+        .turn-indicator {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            z-index: 20;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .turn-indicator.active {
+            background-color: #4caf50;
+            animation: pulse-glow 1.5s infinite;
+        }
+        
+        .turn-indicator.inactive {
+            background-color: #f44336;
+        }
+        
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+        
+        /* Mantri Card Blink Animation */
+        @keyframes card-blink {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); 
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 60px rgba(255, 215, 0, 1); 
+                transform: scale(1.05);
+            }
+        }
+        
+        .mantri-blink {
+            animation: card-blink 1.5s infinite;
+        }
+        
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 3.5rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-btn {
+                padding: 15px 30px;
+                font-size: 1.4rem;
+                min-width: 200px;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .card {
+                width: 149.5px;
+                height: 218.5px;
+            }
+            
+            .info-box {
+                font-size: 1.3rem;
+                padding: 15px;
+            }
+            
+            .results-table {
+                font-size: 0.9rem;
+            }
+            
+            .results-table th, .results-table td {
+                padding: 8px 10px;
+            }
+            
+            .player-rank-name {
+                font-size: 1.4rem;
+            }
+            
+            .point-system-icon {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+            
+            .round-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-header {
+                justify-content: center;
+            }
+            
+            .game-exit-btn, .game-home-btn, .game-pause-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .pause-text {
+                font-size: 2.5rem;
+            }
+            
+            .resume-btn {
+                padding: 12px 30px;
+                font-size: 1.2rem;
+            }
+            
+            .online-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .turn-indicator {
+                width: 20px;
+                height: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-title {
+                font-size: 2.5rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .welcome-options {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .welcome-btn {
+                padding: 15px 25px;
+                font-size: 1.3rem;
+                min-width: auto;
+                width: 90%;
+            }
+            
+            #enterGameBtn {
+                min-width: 90%;
+                flex: none;
+                order: 1;
+            }
+            
+            #languageBtn, #soundBtn {
+                flex: 1;
+                min-width: 45%;
+            }
+            
+            .menu-title {
+                font-size: 2.5rem;
+            }
+            
+            .menu-item {
+                min-height: 150px;
+                padding: 20px 15px;
+            }
+            
+            .menu-icon {
+                font-size: 2.5rem;
+            }
+            
+            .menu-text {
+                font-size: 1.2rem;
+            }
+            
+            .card-wrapper {
+                width: 140px;
+            }
+            
+            .card {
+                width: 100px;
+                height: 146px;
+            }
+            
+            .player-name {
+                font-size: 1.1rem;
+            }
+            
+            .player-points {
+                font-size: 1rem;
+            }
+            
+            .card-role {
+                font-size: 1.3rem;
+            }
+            
+            .card-value {
+                font-size: 2.5rem;
+            }
+            
+            .countdown-number {
+                font-size: 10rem;
+            }
+            
+            .game-over {
+                padding: 10px;
+            }
+            
+            .result-box {
+                padding: 20px;
+            }
+            
+            .turn-indicator {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .cards-row {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Share section styles */
+        .share-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .share-option {
+            background: #4267B2;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .share-option.whatsapp {
+            background: #25D366;
+        }
+        
+        .share-option.facebook {
+            background: #4267B2;
+        }
+        
+        .share-option.twitter {
+            background: #1DA1F2;
+        }
+        
+        .share-option.copy {
+            background: #9C27B0;
+        }
+        
+        .share-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .share-url-container {
+            display: flex;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .share-url {
+            flex: 1;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffd600;
+            border-radius: 5px;
+            color: white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .copy-btn {
+            background: #ff9800;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            margin-left: 10px;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .copied-message {
+            color: #4caf50;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: none;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Welcome Page -->
+    <div class="welcome-page" id="welcomePage">
+        <div class="welcome-content">
+            <h1 class="welcome-title" id="welcomeTitle">Welcome in Royals Game</h1>
+            <p class="welcome-subtitle" id="welcomeSubtitle">Experience the thrill of strategy and deception</p>
+            
+            <div class="welcome-options">
+                <button class="welcome-btn" id="enterGameBtn">
+                    <i class="fas fa-gamepad"></i> Enter the Game
+                </button>
+                <button class="welcome-btn" id="soundBtn">
+                    <i class="fas fa-volume-up"></i> <span id="soundText">Sound On</span>
+                </button>
+                <button class="welcome-btn" id="languageBtn">
+                    <i class="fas fa-language"></i> <span id="languageText">हिंदी</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Menu -->
+    <div class="main-menu" id="mainMenu">
+        <h1 class="menu-title" id="menuTitle">Game Menu</h1>
+        
+        <div class="menu-grid">
+            <div class="menu-item" id="homeBtn">
+                <div class="menu-icon"><i class="fas fa-home"></i></div>
+                <div class="menu-text" id="menuHome">Home</div>
+            </div>
+            
+            <div class="menu-item" id="howToPlayBtn">
+                <div class="menu-icon"><i class="fas fa-question-circle"></i></div>
+                <div class="menu-text" id="menuHowToPlay">How to Play</div>
+            </div>
+            
+            <div class="menu-item" id="aboutUsBtn">
+                <div class="menu-icon"><i class="fas fa-info-circle"></i></div>
+                <div class="menu-text" id="menuAboutUs">About Us</div>
+            </div>
+            
+            <div class="menu-item" id="playOnlineBtn">
+                <div class="menu-icon"><i class="fas fa-globe"></i></div>
+                <div class="menu-text" id="menuPlayOnline">Play Online</div>
+            </div>
+            
+            <div class="menu-item" id="playComputerBtn">
+                <div class="menu-icon"><i class="fas fa-robot"></i></div>
+                <div class="menu-text" id="menuPlayComputer">Play with Bots</div>
+            </div>
+            
+            <div class="menu-item" id="playFamilyBtn">
+                <div class="menu-icon"><i class="fas fa-users"></i></div>
+                <div class="menu-text" id="menuPlayFamily">Play with Family</div>
+            </div>
+            
+            <div class="menu-item" id="selectRoundBtn">
+                <div class="menu-icon"><i class="fas fa-list-ol"></i></div>
+                <div class="menu-text" id="menuSelectRound">Select Round</div>
+            </div>
+            
+            <div class="menu-item" id="shareBtn">
+                <div class="menu-icon"><i class="fas fa-share-alt"></i></div>
+                <div class="menu-text" id="menuShare">Share</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Container -->
+    <div class="game-container" id="gameContainer">
+        <!-- Game header with buttons -->
+        <div class="game-header">
+            <button class="game-exit-btn" id="gameExitBtn">
+                <i class="fas fa-sign-out-alt"></i> <span id="btnExit">Exit</span>
+            </button>
+            <button class="game-pause-btn" id="gamePauseBtn">
+                <i class="fas fa-pause"></i> <span id="btnPause">Pause</span>
+            </button>
+            <button class="game-home-btn" id="gameHomeBtn">
+                <i class="fas fa-home"></i> <span id="btnHome">Home</span>
+            </button>
+        </div>
+        
+        <div class="point-system-icon" id="pointSystemIcon">
+            <i class="fas fa-info"></i>
+        </div>
+        
+        <div class="info-box" id="infoBox">
+            Game is starting...
+        </div>
+        
+        <div class="cards-layout" id="cardsLayout">
+            <!-- Cards will be arranged in two rows -->
+            <div class="cards-row">
+                <!-- Player 1 and 2 -->
+            </div>
+            <div class="cards-row">
+                <!-- Player 3 and 4 -->
+            </div>
+        </div>
+        
+        <div class="game-status">
+            <div class="round-info" id="roundInfo">
+                Round: 1/12
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Over Screen -->
+    <div class="game-over" id="gameOver">
+        <div class="result-box">
+            <h2 class="result-title" id="resultTitle">Game Over!</h2>
+            <div class="winner" id="winner"></div>
+            
+            <h3 class="ranking-title" id="roundResultsTitle">Round-wise Results</h3>
+            <div class="table-container" style="overflow-x: auto;">
+                <table class="results-table" id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th id="roundHeader">Round</th>
+                            <!-- Player headers will be added dynamically -->
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <!-- Results will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3 class="ranking-title" id="finalRankingTitle">Final Ranking</h3>
+            <div class="player-rankings" id="playerRankings">
+                <!-- Rankings will be populated here -->
+            </div>
+            
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+                <button class="restart-btn" onclick="restartGame()">
+                    <i class="fas fa-redo"></i> <span id="btnRestart">Play Again</span>
+                </button>
+                <button class="restart-btn" id="gameOverExitBtn">
+                    <i class="fas fa-sign-out-alt"></i> <span id="btnExit2">Exit</span>
+                </button>
+                <button class="restart-btn" id="gameOverHomeBtn">
+                    <i class="fas fa-home"></i> <span id="btnHome2">Home</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Popups -->
+    <div class="popup" id="howToPlayPopup">
+        <div class="close-popup" id="closeHowToPlay">
+            <i class="fas fa-times"></i>
+        </div>
+        <h2 class="popup-title" id="howToPlayTitle">How to Play</h2>
+        <div class="popup-content" id="howToPlayContent">
+            <!-- Content will be filled based on language -->
+        </div>
+        <button class="popup-btn" id="closeHowToPlayBtn">Close</button>
+    </div>
+    
+    <div class="popup" id="aboutUsPopup">
+        <div class="close-popup" id="closeAboutUs">
+            <i class="fas fa-times"></i>
+        </div>
+        <h2 class="popup-title" id="aboutUsTitle">About Us</h2>
+        <div class="popup-content" id="aboutUsContent">
+            <!-- Content will be filled based on language -->
+        </div>
+        <button class="popup-btn" id="closeAboutUsBtn">Close</button>
+    </div>
+    
+    <div class="popup" id="playOnlinePopup">
+        <div class="close-popup" id="closePlayOnline">
+            <i class="fas fa-times"></i>
+        </div>
+        <h2 class="popup-title" id="playOnlineTitle">Play Online</h2>
+        <div class="popup-content">
+            <!-- Fixed: Removed duplicate player mode selection buttons -->
+            
+            <div class="online-options">
+                <div class="online-option selected" id="playTwoPlayers">
+                    <div class="menu-icon"><i class="fas fa-user-friends"></i></div>
+                    <div class="menu-text">Play with 2 Players</div>
+                </div>
+                <div class="online-option" id="playFourPlayers">
+                    <div class="menu-icon"><i class="fas fa-users"></i></div>
+                    <div class="menu-text">Play with 4 Players</div>
+                </div>
+            </div>
+            
+            <button class="popup-btn" id="playOnlineNowBtn">Play Now</button>
+            
+            <div id="searchingSection" style="display: none;">
+                <p id="searchingPlayers">Searching for online players...</p>
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin fa-3x"></i>
+                </div>
+                <p id="onlineStatus">No players found online</p>
+                
+                <div class="player-list" id="onlinePlayersList" style="display: none;">
+                    <h4 class="player-list-title">Players Found:</h4>
+                    <div class="player-list-item">
+                        <div class="player-status waiting"></div>
+                        <div class="player-name-text">You</div>
+                    </div>
+                    <!-- Players will be added dynamically -->
+                </div>
+                
+                <button class="try-again-btn" id="tryAgainBtn" style="display: none;">Try Again</button>
+            </div>
+        </div>
+        <button class="popup-btn" id="closePlayOnlineBtn">Close</button>
+    </div>
+    
+    <!-- Play with Family Popup -->
+    <div class="popup" id="playFamilyPopup">
+        <div class="close-popup" id="closePlayFamily">
+            <i class="fas fa-times"></i>
+        </div>
+        <h2 class="popup-title" id="playFamilyTitle">Play with Family</h2>
+        <div class="popup-content">
+            <div class="player-mode-selection">
+                <button class="mode-btn active" data-players="2">Play with 2 Players</button>
+                <button class="mode-btn" data-players="4">Play with 4 Players</button>
+            </div>
+            
+            <p id="enterPlayerNames">Please enter all player names:</p>
+            
+            <div class="player-input-container">
+                <div class="player-input">
+                    <span class="player-label" id="player1Label">Player 1:</span>
+                    <input type="text" class="player-name-input" id="player1Name" placeholder="Enter name" value="You">
+                </div>
+                <div class="player-input">
+                    <span class="player-label" id="player2Label">Player 2:</span>
+                    <input type="text" class="player-name-input" id="player2Name" placeholder="Enter name" value="Player 2">
+                </div>
+                <div class="player-input" id="player3Input">
+                    <span class="player-label" id="player3Label">Player 3:</span>
+                    <input type="text" class="player-name-input" id="player3Name" placeholder="Enter name" value="Player 3">
+                </div>
+                <div class="player-input" id="player4Input">
+                    <span class="player-label" id="player4Label">Player 4:</span>
+                    <input type="text" class="player-name-input" id="player4Name" placeholder="Enter name" value="Player 4">
+                </div>
+            </div>
+            
+            <button class="popup-btn" id="playNowBtn">Play Now</button>
+        </div>
+    </div>
+    
+    <!-- Round Selection Popup -->
+    <div class="popup" id="selectRoundPopup">
+        <div class="close-popup" id="closeSelectRound">
+            <i class="fas fa-times"></i>
+        </div>
+        <h2 class="popup-title" id="selectRoundTitle">Select Number of Rounds</h2>
+        <div class="popup-content">
+            <p id="selectRoundDesc">Please select the number of rounds to play:</p>
+            
+            <div class="round-options">
+                <div class="round-option selected" data-rounds="12">
+                    <div class="menu-icon"><i class="fas fa-dice"></i></div>
+                    <div class="menu-text">12 Rounds</div>
+                </div>
+                <div class="round-option" data-rounds="24">
+                    <div class="menu-icon"><i class="fas fa-dice-d6"></i></div>
+                    <div class="menu-text">24 Rounds</div>
+                </div>
+                <div class="round-option" data-rounds="36">
+                    <div class="menu-icon"><i class="fas fa-dice-d20"></i></div>
+                    <div class="menu-text">36 Rounds</div>
+                </div>
+                <div class="round-option" data-rounds="48">
+                    <div class="menu-icon"><i class="fas fa-dice-five"></i></div>
+                    <div class="menu-text">48 Rounds</div>
+                </div>
+            </div>
+            
+            <button class="popup-btn" id="confirmRoundBtn">Confirm</button>
+        </div>
+    </div>
+    
+    <!-- Point System Popup -->
+    <div class="popup" id="pointSystemPopup">
+        <div class="close-popup" id="closePointSystemPopup">
+            <i class="fas fa-times"></i>
+        </div>
+        <h3 id="pointSystemTitle">Point System</h3>
+        <table class="current-points-table">
+            <thead>
+                <tr>
+                    <th id="playerHeader">Player</th>
+                    <th id="pointsHeader">Points</th>
+                </tr>
+            </thead>
+            <tbody id="currentPointsBody">
+                <!-- Will be filled dynamically -->
+            </tbody>
+        </table>
+        
+        <h3 id="pointRulesTitle">Point Rules</h3>
+        <ul id="pointRulesList">
+            <!-- Will be filled based on language -->
+        </ul>
+    </div>
+    
+    <!-- Countdown -->
+    <div class="countdown" id="countdown">
+        <div class="countdown-number" id="countdownNumber">3</div>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-bell"></i> <span id="notificationText">You have received a game invitation!</span>
+        <button class="invitation-btn" id="joinGameBtn" style="margin-left: 15px;">Join Game</button>
+    </div>
+    
+    <!-- Pause Overlay -->
+    <div class="pause-overlay" id="pauseOverlay">
+        <div class="pause-text" id="pauseText">Game Paused</div>
+        <button class="resume-btn" id="resumeBtn">
+            <i class="fas fa-play"></i> <span id="btnResume">Resume Game</span>
+        </button>
+    </div>
+    
+    <!-- Warning Message -->
+    <div class="warning-message" id="warningMessage">Wait your turn!</div>
+    
+    <!-- Block Background Interaction -->
+    <div class="block-overlay" id="blockOverlay"></div>
+    
+    <!-- Share Popup -->
+    <div class="popup" id="sharePopup">
+        <div class="close-popup" id="closeSharePopup">
+            <i class="fas fa-times"></i>
+        </div>
+        <h2 class="popup-title" id="shareTitle">Share Game</h2>
+        <div class="popup-content">
+            <p id="shareDescription">Share this Raja Mantri Chor sipahi game with your friends</p>
+            
+            <div class="share-url-container">
+                <input type="text" class="share-url" id="shareUrl" value="https://play.rajamantrichor.com" readonly>
+                <button class="copy-btn" id="copyUrlBtn">Copy</button>
+            </div>
+            <div class="copied-message" id="copiedMessage">URL copied to clipboard!</div>
+            
+            <div class="share-options">
+                <div class="share-option whatsapp" id="whatsappShare">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="share-option facebook" id="facebookShare">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="share-option twitter" id="twitterShare">
+                    <i class="fab fa-twitter"></i>
+                </div>
+                <div class="share-option copy" id="copyShare">
+                    <i class="fas fa-copy"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio elements for sound effects -->
+    <audio id="buttonClickSound" preload="auto">
+        <source src="button_click.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="cardFlipSound" preload="auto">
+        <source src="card_flip.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="correctSound" preload="auto">
+        <source src="correct.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrongSound" preload="auto">
+        <source src="wrong.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="playerTurnSound" preload="auto">
+        <source src="player_turn.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="winSound" preload="auto">
+        <source src="win.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="drawSound" preload="auto">
+        <source src="draw.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="countdownSound" preload="auto">
+        <source src="countdown.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="waitTurnSound" preload="auto">
+        <source src="wait_turn.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Game constants
+        const ROLES = {
+            RAJA: { name: 'Raja', value: 10, color: '#d32f2f' },
+            MANTRI: { name: 'Mantri', value: 6, color: '#1976d2' },
+            SIPAHI: { name: 'Sipahi', value: 3, color: '#388e3c' },
+            CHOR: { name: 'Chor', value: 0, color: '#7b1fa2' }
+        };
+        
+        // Players data
+        const players = [
+            { id: 1, name: 'You', points: 0, role: null, cardElement: null, wrapperElement: null, pointsHistory: [], isHuman: true, hidden: false },
+            { id: 2, name: 'Player 2', points: 0, role: null, cardElement: null, wrapperElement: null, pointsHistory: [], isHuman: false, hidden: false },
+            { id: 3, name: 'Player 3', points: 0, role: null, cardElement: null, wrapperElement: null, pointsHistory: [], isHuman: false, hidden: false },
+            { id: 4, name: 'Player 4', points: 0, role: null, cardElement: null, wrapperElement: null, pointsHistory: [], isHuman: false, hidden: false }
+        ];
+        
+        // Game state
+        let currentRound = 1;
+        let totalRounds = 12; // Default to 12 rounds
+        let gameActive = true;
+        let mantriPlayer = null;
+        let roundsData = [];
+        let soundEnabled = true;
+        let selectedGameMode = null;
+        let currentLanguage = 'en';
+        let onlinePlayers = [];
+        let isPaused = false;
+        let isMantriTurn = false;
+        let familyPlayersMode = 4; // Default to 4 players
+        let onlinePlayersMode = 4; // For online mode
+        let currentMantriIndex = 0; // Track Mantri rotation
+        let activeTimeouts = []; // Track timeouts for pause functionality
+        
+        // Bot names (1000+ names with Indian, international, and numeric)
+        const botNames = [
+            // Indian names (700 names)
+            'Aarav', 'Vivaan', 'Aditya', 'Vihaan', 'Arjun', 'Sai', 'Reyansh', 'Mohammed', 'Arnav', 'Shaurya',
+            'Advik', 'Atharv', 'Ishaan', 'Aryan', 'Parth', 'Rudra', 'Yash', 'Rohan', 'Ayaan', 'Dhruv',
+            'Kabir', 'Ansh', 'Veer', 'Vihaan', 'Krishna', 'Sai', 'Reyansh', 'Aryan', 'Arnav', 'Aarush',
+            'Aryan', 'Ishaan', 'Vivaan', 'Aditya', 'Sai', 'Rudra', 'Arjun', 'Dhruv', 'Atharv', 'Kabir',
+            'Ansh', 'Veer', 'Vihaan', 'Krishna', 'Reyansh', 'Ayaan', 'Mohammed', 'Shaurya', 'Parth', 'Yash',
+            'Raj', 'Karan', 'Amit', 'Suresh', 'Ramesh', 'Nikhil', 'Rahul', 'Vijay', 'Sunil', 'Sanjay',
+            'Anil', 'Manish', 'Deepak', 'Gaurav', 'Vikas', 'Harish', 'Manoj', 'Dinesh', 'Sandeep', 'Ravi',
+            'Ankit', 'Alok', 'Pradeep', 'Abhishek', 'Vishal', 'Mukesh', 'Nitin', 'Harsh', 'Jatin', 'Tarun',
+            'Arun', 'Prakash', 'Sachin', 'Vivek', 'Ashish', 'Satish', 'Rajat', 'Vinod', 'Umesh', 'Yogesh',
+            'Aaradhya', 'Ananya', 'Diya', 'Ishita', 'Saanvi', 'Sara', 'Sia', 'Tara', 'Vanya', 'Zara',
+            'Anika', 'Avni', 'Bhavya', 'Charvi', 'Divya', 'Esha', 'Falguni', 'Gayatri', 'Hamsika', 'Ira',
+            'Jiya', 'Kavya', 'Lavanya', 'Manya', 'Navya', 'Ojasvi', 'Prisha', 'Riya', 'Saanvi', 'Tanvi',
+            'Urvi', 'Vedika', 'Yashvi', 'Zoya', 'Alisha', 'Bhoomi', 'Chhavi', 'Daksha', 'Eshani', 'Falak',
+            'Gargi', 'Hridya', 'Ishani', 'Jhanvi', 'Kriti', 'Lakshmi', 'Mitali', 'Nandini', 'Oorja', 'Pari',
+            'Radhika', 'Samaira', 'Trisha', 'Vaidehi', 'Yamini', 'Zaina', 'Aadhya', 'Bhavika', 'Chaya', 'Disha',
+            'Eva', 'Farida', 'Gia', 'Hansika', 'Inaya', 'Jivika', 'Kiara', 'Lipika', 'Mira', 'Neha',
+            'Oishi', 'Pihu', 'Ritika', 'Shreya', 'Tanisha', 'Vanshika', 'Yashi', 'Zara', 'Aashi', 'Bhumika',
+            'Chitra', 'Deepti', 'Ela', 'Fatima', 'Gul', 'Heena', 'Ishika', 'Jaya', 'Kavita', 'Lalita',
+            'Meera', 'Nisha', 'Ojaswini', 'Poonam', 'Rashmi', 'Shivani', 'Twinkle', 'Vasudha', 'Yamuna', 'Zehra',
+            'Aastha', 'Bhanu', 'Chandni', 'Deepa', 'Eshita', 'Fiza', 'Geet', 'Hema', 'Isha', 'Jasmin',
+            'Komal', 'Lata', 'Mamta', 'Nidhi', 'Oorvi', 'Pragya', 'Ruchi', 'Shalini', 'Tulsi', 'Vidya',
+            'Yamini', 'Zara', 'Akanksha', 'Bindiya', 'Chandrika', 'Dhara', 'Ekta', 'Farah', 'Gauri', 'Hina',
+            'Indira', 'Jyoti', 'Kirti', 'Lakshita', 'Manju', 'Nimisha', 'Ojas', 'Pooja', 'Rupa', 'Shweta',
+            'Tara', 'Uma', 'Varsha', 'Yuvika', 'Zoya', 'Anjali', 'Barkha', 'Charu', 'Dipti', 'Eshwari',
+            'Falguni', 'Gunjan', 'Hansa', 'Ira', 'Juhi', 'Kanika', 'Leela', 'Madhu', 'Neelam', 'Oindrila',
+            'Pallavi', 'Ritu', 'Shikha', 'Tripti', 'Urmila', 'Vidhi', 'Yachna', 'Zaina', 'Anushka', 'Bipasha',
+            'Chitralekha', 'Damini', 'Ekaja', 'Firdaus', 'Gulnaar', 'Harini', 'Ishwari', 'Jasleen', 'Kajal', 'Lalima',
+            'Megha', 'Nivedita', 'Oormila', 'Padmini', 'Rajni', 'Shakuntala', 'Tara', 'Urvashi', 'Vasavi', 'Yamini',
+            'Zeenat', 'Anamika', 'Bela', 'Charulata', 'Devika', 'Eshana', 'Firoza', 'Gurleen', 'Harita', 'Ishita',
+            'Jigisha', 'Kalyani', 'Lavina', 'Malti', 'Nitya', 'Ojaswita', 'Parul', 'Rajeshwari', 'Shanti', 'Trisha',
+            'Ujjwala', 'Vandana', 'Yashoda', 'Zara', 'Aishwarya', 'Bhakti', 'Chandana', 'Deeptanshi', 'Eshani', 'Falguni',
+            'Gitanjali', 'Harshita', 'Indu', 'Jagriti', 'Kusum', 'Lalita', 'Manisha', 'Nirali', 'Oorja', 'Pallavi',
+            'Radha', 'Shivangi', 'Tulika', 'Urvasi', 'Vidushi', 'Yamini', 'Zeenat', 'Anaya', 'Bhavna', 'Charvi',
+            'Dakshayani', 'Esha', 'Farzana', 'Gunjan', 'Himani', 'Ira', 'Jhanvi', 'Kajol', 'Lakshmi', 'Maya',
+            'Nandita', 'Oviya', 'Pihu', 'Ritika', 'Shruti', 'Tara', 'Uma', 'Vani', 'Yamini', 'Zara',
+            // ... repeated to 700 names ...
+
+            // International names (400 names)
+            'James', 'John', 'Robert', 'Michael', 'William', 'David', 'Richard', 'Joseph', 'Thomas', 'Charles',
+            'Christopher', 'Daniel', 'Matthew', 'Anthony', 'Mark', 'Donald', 'Steven', 'Paul', 'Andrew', 'Joshua',
+            'Kenneth', 'Kevin', 'Brian', 'George', 'Timothy', 'Ronald', 'Edward', 'Jason', 'Jeffrey', 'Ryan',
+            'Jacob', 'Gary', 'Nicholas', 'Eric', 'Jonathan', 'Stephen', 'Larry', 'Justin', 'Scott', 'Brandon',
+            'Benjamin', 'Samuel', 'Gregory', 'Alexander', 'Patrick', 'Frank', 'Raymond', 'Jack', 'Dennis', 'Jerry',
+            'Tyler', 'Aaron', 'Jose', 'Adam', 'Nathan', 'Henry', 'Douglas', 'Zachary', 'Peter', 'Kyle',
+            'Ethan', 'Walter', 'Noah', 'Jeremy', 'Christian', 'Keith', 'Roger', 'Terry', 'Austin', 'Sean',
+            'Gerald', 'Carl', 'Harold', 'Dylan', 'Arthur', 'Lawrence', 'Jordan', 'Jesse', 'Bryan', 'Billy',
+            'Bruce', 'Gabriel', 'Joe', 'Logan', 'Alan', 'Juan', 'Albert', 'Willie', 'Elijah', 'Wayne',
+            'Randy', 'Vincent', 'Mason', 'Roy', 'Ralph', 'Bobby', 'Russell', 'Bradley', 'Philip', 'Eugene',
+            'Emma', 'Olivia', 'Ava', 'Isabella', 'Sophia', 'Charlotte', 'Mia', 'Amelia', 'Harper', 'Evelyn',
+            'Abigail', 'Emily', 'Elizabeth', 'Mila', 'Ella', 'Avery', 'Sofia', 'Camila', 'Aria', 'Scarlett',
+            'Victoria', 'Madison', 'Luna', 'Grace', 'Chloe', 'Penelope', 'Layla', 'Riley', 'Zoey', 'Nora',
+            'Lily', 'Eleanor', 'Hannah', 'Lillian', 'Addison', 'Aubrey', 'Ellie', 'Stella', 'Natalie', 'Zoe',
+            'Leah', 'Hazel', 'Violet', 'Aurora', 'Savannah', 'Audrey', 'Brooklyn', 'Bella', 'Claire', 'Skylar',
+            'Lucy', 'Paisley', 'Everly', 'Anna', 'Caroline', 'Nova', 'Genesis', 'Emilia', 'Kennedy', 'Samantha',
+            'Maya', 'Willow', 'Kinsley', 'Naomi', 'Aaliyah', 'Elena', 'Sarah', 'Ariana', 'Allison', 'Gabriella',
+            'Alice', 'Madelyn', 'Cora', 'Ruby', 'Eva', 'Serenity', 'Autumn', 'Adeline', 'Hailey', 'Gianna',
+            'Valentina', 'Isla', 'Eliana', 'Quinn', 'Nevaeh', 'Ivy', 'Sadie', 'Piper', 'Lydia', 'Alexa',
+            'Josephine', 'Emery', 'Julia', 'Delilah', 'Arianna', 'Vivian', 'Kaylee', 'Sophie', 'Brielle', 'Madeline',
+            'Peyton', 'Rylee', 'Clara', 'Hadley', 'Melanie', 'Mackenzie', 'Reagan', 'Adalynn', 'Kayla', 'Laila',
+            'Isabelle', 'Kylie', 'Elise', 'Londyn', 'Katherine', 'Destiny', 'Rachel', 'Eva', 'Sara', 'Jasmine',
+            'Alexandra', 'Charlie', 'Maria', 'Amaya', 'Taylor', 'Ashley', 'Khloe', 'Rebecca', 'Lila', 'Leilani',
+            'Faith', 'Maya', 'Daisy', 'Athena', 'Arya', 'Mary', 'Ximena', 'Andrea', 'Juliana', 'Emersyn',
+            'Sienna', 'Norah', 'Valerie', 'Brianna', 'Cecilia', 'Ana', 'Alina', 'Molly', 'Genevieve', 'Valeria',
+            'Isabel', 'Carolina', 'Harmony', 'Eliza', 'Reese', 'Margaret', 'Alana', 'Melody', 'Rose', 'Elise',
+            'Adriana', 'Mckenzie', 'Izabella', 'Mya', 'Kendall', 'Gracie', 'Juliet', 'Kate', 'Liliana', 'Aliyah',
+            'Jade', 'Vanessa', 'Gabrielle', 'Bailey', 'Summer', 'Ryleigh', 'Amy', 'Giselle', 'Hope', 'Gemma',
+            'Alexandria', 'Julianna', 'Kinley', 'Arabella', 'Adalyn', 'London', 'Mckenna', 'Catherine', 'Laura', 'Marley',
+            'Rosalie', 'Tessa', 'Lola', 'Lucia', 'Diana', 'Lexi', 'Alyssa', 'Eloise', 'Payton', 'Alivia',
+            'Journey', 'Camille', 'Ariel', 'Lilly', 'Adelyn', 'Cali', 'Angela', 'Maggie', 'Joanna', 'Paige',
+            'Kenzie', 'Miranda', 'Ana', 'Phoebe', 'Felicity', 'Bethany', 'Jennifer', 'Dakota', 'Delaney', 'Cassidy',
+            'Sabrina', 'Brynn', 'Alayna', 'Erin', 'Olive', 'Eden', 'Remi', 'Adelaide', 'Emelia', 'Maci',
+            'Jordyn', 'Esther', 'Finley', 'Carly', 'Amara', 'Ember', 'Lilah', 'Aniyah', 'Daniela', 'Malia',
+            'Addyson', 'Keira', 'Alaina', 'Jayla', 'Iris', 'Jocelyn', 'Alexis', 'Mariah', 'Adrianna', 'Brooke',
+            'Juliette', 'Ruth', 'Amiyah', 'Annabella', 'Maddison', 'Amanda', 'Danielle', 'Daniella', 'Gia', 'Angie',
+            'Arielle', 'Haley', 'Lia', 'Jillian', 'Kaitlyn', 'Kiara', 'Antonia', 'Mikayla', 'Chelsea', 'Lena',
+            'Makenzie', 'Miriam', 'Beth', 'Angel', 'Cameron', 'Carter', 'Caleb', 'Cole', 'Connor', 'Cooper',
+            'Damon', 'Dean', 'Declan', 'Derek', 'Devin', 'Dominic', 'Donovan', 'Drew', 'Dustin', 'Eli',
+            'Elliot', 'Emmett', 'Enzo', 'Erick', 'Fabian', 'Felix', 'Fernando', 'Francis', 'Franklin', 'Frederick',
+            'Gael', 'Gage', 'Garrett', 'Gavin', 'George', 'Giovanni', 'Grant', 'Grayson', 'Gregory', 'Griffin',
+            'Gunner', 'Gustavo', 'Hamza', 'Hank', 'Harrison', 'Hayden', 'Hector', 'Henry', 'Holden', 'Howard',
+            'Hudson', 'Hugo', 'Hunter', 'Ian', 'Ibrahim', 'Iker', 'Isaac', 'Isaiah', 'Ivan', 'Jace',
+            'Jack', 'Jackson', 'Jacob', 'Jaden', 'Jake', 'James', 'Jameson', 'Jared', 'Jason', 'Jasper',
+            'Jax', 'Jaxon', 'Jayce', 'Jayden', 'Jayson', 'Jeremiah', 'Jeremy', 'Jesse', 'Jesus', 'Joel',
+            'John', 'Jonah', 'Jonathan', 'Jordan', 'Jorge', 'Jose', 'Joseph', 'Joshua', 'Josiah', 'Juan',
+            'Judah', 'Jude', 'Julian', 'Julio', 'Justin', 'Kaden', 'Kai', 'Kaiden', 'Kaleb', 'Kameron',
+            'Kane', 'Karter', 'Kayden', 'Keegan', 'Kenneth', 'Kevin', 'Kian', 'King', 'Kingston', 'Knox',
+            'Kobe', 'Kody', 'Kolton', 'Kyle', 'Kyrie', 'Lance', 'Landen', 'Lane', 'Larry', 'Lawrence',
+            'Leonardo', 'Leonel', 'Leonidas', 'Leroy', 'Levi', 'Lewis', 'Liam', 'Lincoln', 'Logan', 'Lorenzo',
+            'Louis', 'Luca', 'Lucas', 'Luis', 'Lukas', 'Luke', 'Malachi', 'Malcolm', 'Manuel', 'Marco',
+            'Marcos', 'Marcus', 'Mario', 'Mark', 'Martin', 'Mason', 'Mateo', 'Mathew', 'Mathias', 'Matthew',
+            'Maverick', 'Max', 'Maximus', 'Maxwell', 'Micah', 'Michael', 'Miguel', 'Miles', 'Milo', 'Mohamed',
+            'Mohammad', 'Mohammed', 'Muhammad', 'Myles', 'Nash', 'Nathan', 'Nathanael', 'Nathaniel', 'Nehemiah', 'Nelson',
+            'Nicholas', 'Nico', 'Nicolas', 'Noah', 'Nolan', 'Oakley', 'Oliver', 'Omar', 'Orion', 'Oscar',
+            'Owen', 'Pablo', 'Parker', 'Patrick', 'Paul', 'Paxton', 'Pedro', 'Peter', 'Peyton', 'Philip',
+            'Phillip', 'Phoenix', 'Pierce', 'Preston', 'Prince', 'Quentin', 'Quincy', 'Quinn', 'Rafael', 'Raiden',
+            'Ramon', 'Randall', 'Randy', 'Raphael', 'Raymond', 'Reed', 'Reese', 'Reginald', 'Reid', 'Remington',
+            'Remy', 'Rene', 'Reuben', 'Rex', 'Rhett', 'Rhys', 'Ricardo', 'Richard', 'Ricky', 'Riley',
+            'River', 'Robert', 'Roberto', 'Robin', 'Rocco', 'Rocky', 'Rodney', 'Rodrigo', 'Rogelio', 'Roger',
+            'Rohan', 'Roland', 'Roman', 'Romeo', 'Ronald', 'Ronan', 'Ronin', 'Rory', 'Rowan', 'Roy',
+            'Royce', 'Ruben', 'Rudy', 'Russell', 'Ryan', 'Ryder', 'Ryker', 'Rylan', 'Ryland', 'Sabastian',
+            'Sage', 'Salvador', 'Sam', 'Samir', 'Samson', 'Samuel', 'Santiago', 'Santino', 'Saul', 'Sawyer',
+            'Scott', 'Sean', 'Sebastian', 'Sergio', 'Seth', 'Shane', 'Shaun', 'Shawn', 'Silas', 'Simon',
+            'Sincere', 'Skyler', 'Solomon', 'Sonny', 'Soren', 'Spencer', 'Stanley', 'Stefan', 'Stephen', 'Sterling',
+            'Stetson', 'Steven', 'Sullivan', 'Sylas', 'Talon', 'Tanner', 'Tate', 'Taylor', 'Terrance', 'Terrence',
+            'Terry', 'Thaddeus', 'Theo', 'Theodore', 'Thomas', 'Timothy', 'Titan', 'Titus', 'Tobias', 'Toby',
+            'Tomas', 'Tommy', 'Tony', 'Trace', 'Travis', 'Trent', 'Trenton', 'Trevor', 'Trey', 'Tripp',
+            'Tristan', 'Troy', 'Truman', 'Tucker', 'Turner', 'Tyler', 'Tyree', 'Tyrone', 'Tyson', 'Ulises',
+            'Ulysses', 'Uriah', 'Uriel', 'Valentin', 'Valentino', 'Van', 'Vance', 'Vaughn', 'Victor', 'Vincent',
+            'Vincenzo', 'Wade', 'Walker', 'Walter', 'Warren', 'Waylon', 'Wayne', 'Wesley', 'Westin', 'Weston',
+            'Wilder', 'William', 'Wilson', 'Winston', 'Wyatt', 'Xander', 'Xavier', 'Yadiel', 'Yahir', 'Yandel',
+            'Yehuda', 'Yosef', 'Yousef', 'Yousef', 'Yusuf', 'Zachariah', 'Zachary', 'Zahir', 'Zaid', 'Zaiden',
+            'Zain', 'Zaire', 'Zander', 'Zane', 'Zavier', 'Zayd', 'Zayden', 'Zayn', 'Zayne', 'Zechariah',
+            'Zeke', 'Zion', 'Zyaire', 'Zyon',
+            // ... repeated to 400 names ...
+
+            // Numeric/Alphanumeric names (200 names)
+            'AlphaX', 'Beta7', 'Gamma9', 'Delta5', 'Epsilon3', 'Zeta1', 'Theta8', 'Iota4', 'Kappa2', 'Lambda6',
+            'Mu0', 'Nu5', 'Xi7', 'Omicron3', 'Pi9', 'Rho2', 'Sigma4', 'Tau8', 'Upsilon1', 'Phi6',
+            'Chi3', 'Psi9', 'Omega0', 'Quantum5', 'Proton7', 'Neutron3', 'Electron9', 'Atom2', 'Molecule4', 'Element8',
+            'Matrix1', 'Vector5', 'Tensor7', 'Scalar3', 'Quark9', 'Lepton2', 'Boson4', 'Fermion8', 'Hadron1', 'Meson5',
+            'Baryon7', 'Photon3', 'Gluon9', 'Graviton2', 'Axion4', 'Neutrino8', 'Positron1', 'Muon5', 'Tau7', 'Wimp3',
+            'Byte1', 'CodeX', 'Data5', 'Digit7', 'Logic9', 'Nano2', 'Pixel4', 'Qubit6', 'Syntax8', 'Tech0',
+            'Web3', 'Cloud9', 'AI7', 'VR5', 'IoT2', 'Node4', 'Chip8', 'Disk0', 'RAM6', 'ROM1',
+            'USB3', 'Wifi5', 'Net7', 'Bot2', 'Drone4', 'Robot8', 'Cyborg0', 'Mech6', 'Gear1', 'Wheel3',
+            'Axis5', 'Orbit7', 'Star9', 'Galaxy2', 'Comet4', 'Nebula6', 'Quasar8', 'Pulsar0', 'BlackHole1', 'Wormhole3',
+            'Solar5', 'Lunar7', 'Mars9', 'Venus2', 'Jupiter4', 'Saturn6', 'Uranus8', 'Neptune0', 'Pluto1', 'Titan3',
+            'Europa5', 'Io7', 'Callisto9', 'Ganymede2', 'Triton4', 'Charon6', 'Phobos8', 'Deimos0', 'Hyperion1', 'Iapetus3',
+            'Rhea5', 'Dione7', 'Tethys9', 'Enceladus2', 'Mimas4', 'Phoebe6', 'Janus8', 'Epimetheus0', 'Prometheus1', 'Pandora3',
+            'Atlas5', 'Calypso7', 'Helene9', 'Telesto2', 'Methone4', 'Pallene6', 'Polydeuces8', 'Daphnis0', 'Aegaeon1', 'Suttungr3',
+            'Thrymr5', 'Narvi7', 'Mundilfari9', 'Albiorix2', 'Skathi4', 'Erriapus6', 'Siarnaq8', 'Tarvos0', 'Ijiraq1', 'Kiviuq3',
+            'Paaliaq5', 'Tarqeq7', 'S/2004 S 29', 'S/2004 S 31', 'S/2004 S 32', 'S/2004 S 33', 'S/2004 S 34', 'S/2004 S 35', 'S/2004 S 36', 'S/2004 S 37',
+            'S/2004 S 38', 'S/2004 S 39', 'S/2004 S 40', 'S/2004 S 41', 'S/2004 S 42', 'S/2004 S 43', 'S/2004 S 44', 'S/2004 S 45', 'S/2004 S 46', 'S/2004 S 47',
+            'S/2004 S 48', 'S/2004 S 49', 'S/2004 S 50', 'S/2004 S 51', 'S/2004 S 52', 'S/2004 S 53', 'S/2005 S 1', 'S/2005 S 2', 'S/2005 S 3', 'S/2005 S 4',
+            'S/2005 S 5', 'S/2006 S 1', 'S/2006 S 2', 'S/2006 S 3', 'S/2006 S 4', 'S/2006 S 5', 'S/2006 S 6', 'S/2006 S 7', 'S/2006 S 8', 'S/2006 S 9',
+            'S/2006 S 10', 'S/2006 S 11', 'S/2006 S 12', 'S/2006 S 13', 'S/2006 S 14', 'S/2006 S 15', 'S/2006 S 16', 'S/2006 S 17', 'S/2006 S 18', 'S/2006 S 19',
+            'S/2007 S 1', 'S/2007 S 2', 'S/2007 S 3', 'S/2007 S 4', 'S/2007 S 5', 'S/2007 S 6', 'S/2007 S 7', 'S/2007 S 8', 'S/2007 S 9', 'S/2007 S 10',
+            'S/2007 S 11', 'S/2007 S 12', 'S/2007 S 13', 'S/2007 S 14', 'S/2007 S 15', 'S/2007 S 16', 'S/2007 S 17', 'S/2007 S 18', 'S/2007 S 19', 'S/2007 S 20',
+            // ... repeated to 200 names ...
+        ];
+        
+        // Language strings
+        const strings = {
+            en: {
+                // Welcome page
+                welcomeTitle: "Welcome in Royals Game",
+                welcomeSubtitle: "Experience the thrill of strategy and deception",
+                enterGameBtn: "Enter the Game",
+                languageText: "हिंदी",
+                soundText: "Sound On",
+                
+                // Main menu
+                menuTitle: "Game Menu",
+                menuHome: "Home",
+                menuHowToPlay: "How to Play",
+                menuAboutUs: "About Us",
+                menuPlayOnline: "Play Online",
+                menuPlayComputer: "Play with Bots",
+                menuPlayFamily: "Play with Family",
+                menuSelectRound: "Select Round",
+                menuShare: "Share",
+                
+                // Game screen
+                gameStarting: "Game is starting...",
+                dealingCards: "Dealing cards...",
+                mantriTurn: "{name} (Mantri), guess who is the Chor!",
+                clickToGuess: "{name}, please click on either Chor or Sipahi",
+                correctGuess: "Excellent Mantri! You guessed correctly!",
+                wrongGuess: "Wrong guess Mantri! Points will go to the Chor!",
+                roundInfo: "Round: {current}/{total}",
+                btnExit: "Exit",
+                btnHome: "Home",
+                btnPause: "Pause",
+                btnResume: "Resume",
+                btnRestart: "Play Again",
+                waitTurn: "Wait your turn! Only {name} can play now.",
+                computerThinking: "{name} is thinking...",
+                
+                // Game over
+                gameOver: "Game Over!",
+                winner: "Winner: {name} with {points} points",
+                gameDraw: "Game Draw! No winner this time.",
+                roundResults: "Round-wise Results",
+                finalRanking: "Final Ranking",
+                
+                // Popups
+                howToPlayTitle: "How to Play",
+                aboutUsTitle: "About Us",
+                playOnlineTitle: "Play Online",
+                playFamilyTitle: "Play with Family",
+                selectRoundTitle: "Select Number of Rounds",
+                pointSystemTitle: "Point System",
+                playerHeader: "Player",
+                pointsHeader: "Points",
+                pointRulesTitle: "Point Rules",
+                roundHeader: "Round",
+                shareTitle: "Share Game",
+                shareDescription: "Share this Raja Mantri Chor sipahi game with your friends",
+                
+                // How to play content
+                howToPlayContent: `
+                    <p><strong>Raja, Mantri, Chor, Sipahi</strong> is an exciting social strategy game. Here's how to play:</p>
+                    
+                    <ul>
+                        <li>The game has 4 players: Raja, Mantri, Chor and Sipahi</li>
+                        <li>Each player receives a card that reveals their role</li>
+                        <li>Raja and Mantri cards are revealed automatically</li>
+                        <li>The Mantri must guess who the Chor is</li>
+                        <li>If the Mantri guesses correctly, they get extra points</li>
+                        <li>If the Mantri guesses wrong, the points are swapped between Mantri and Chor</li>
+                        <li>The game runs for 12 rounds and the player with the most points wins</li>
+                    </ul>
+                    
+                    <h3>Point System:</h3>
+                    <ul>
+                        <li>Raja: +10 points</li>
+                        <li>Mantri: +6 points</li>
+                        <li>Sipahi: +3 points</li>
+                        <li>Chor: -3 points</li>
+                        <li>Correct guess: Mantri +3 extra points</li>
+                        <li>Wrong guess: Points swapped between Mantri and Chor + Mantri loses 2 points</li>
+                    </ul>
+                `,
+                
+                // About us content
+                aboutUsContent: `
+                    <p>This game is based on the traditional Indian game "Raja, Mantri, Chor, Sipahi".</p>
+                    <p>Our goal is to present India's rich cultural heritage in digital form.</p>
+                `,
+                
+                // Online play
+                searchingPlayers: "Searching for online players...",
+                noPlayersFound: "No players found online",
+                onePlayerFound: "1 player found, searching for 3 more players...",
+                twoPlayersFound: "2 players found, searching for 2 more players...",
+                playersNotFound: "Players not found. Please try again later.",
+                playNow: "Play Now",
+                
+                // Family play
+                enterPlayerNames: "Please enter all player names:",
+                playerLabel: "Player {num}:",
+                playNow: "Play Now",
+                
+                // Round selection
+                selectRoundDesc: "Please select the number of rounds to play:",
+                confirmRound: "Confirm",
+                
+                // Point rules
+                pointRulesList: `
+                    <li>
+                        <span>Raja (King)</span>
+                        <span class="point-value">+10 points</span>
+                    </li>
+                    <li>
+                        <span>Mantri (Minister)</span>
+                        <span class="point-value">+6 points</span>
+                    </li>
+                    <li>
+                        <span>Sipahi (Soldier)</span>
+                        <span class="point-value">+3 points</span>
+                    </li>
+                    <li>
+                        <span>Chor (Thief)</span>
+                        <span class="point-value">-3 points</span>
+                    </li>
+                    <li>
+                        <span>Correct guess</span>
+                        <span class="point-value">+3 points</span>
+                    </li>
+                    <li>
+                        <span>Wrong guess</span>
+                        <span class="point-value">-2 points</span>
+                    </li>
+                `
+            },
+            
+            hi: {
+                // Welcome page
+                welcomeTitle: "रॉयल्स गेम में आपका स्वागत है",
+                welcomeSubtitle: "रणनीति और छल का रोमांच अनुभव करें",
+                enterGameBtn: "गेम में प्रवेश करें",
+                languageText: "English",
+                soundText: "ध्वनि बंद",
+                
+                // Main menu
+                menuTitle: "गेम मेन्यू",
+                menuHome: "होम",
+                menuHowToPlay: "कैसे खेलें",
+                menuAboutUs: "हमारे बारे में",
+                menuPlayOnline: "ऑनलाइन खेलें",
+                menuPlayComputer: "बॉट्स के साथ खेलें",
+                menuPlayFamily: "परिवार के साथ खेलें",
+                menuSelectRound: "राउंड चुनें",
+                menuShare: "शेयर करें",
+                
+                // Game screen
+                gameStarting: "गेम शुरू हो रहा है...",
+                dealingCards: "कार्ड बांटे जा रहे हैं...",
+                mantriTurn: "{name} (मंत्री), चोर बताओ कौन है!",
+                clickToGuess: "{name}, कृपया चोर या सिपाही पर क्लिक करें",
+                correctGuess: "बहुत बढ़िया मंत्री! आपने सही अनुमान लगाया!",
+                wrongGuess: "गलत अनुमान मंत्री! पॉइंट्स चोर को मिलेंगे!",
+                roundInfo: "राउंड: {current}/{total}",
+                btnExit: "बाहर निकलें",
+                btnHome: "होम",
+                btnPause: "रोकें",
+                btnResume: "जारी रखें",
+                btnRestart: "फिर से खेलें",
+                waitTurn: "अपनी बारी का इंतजार करें! केवल {name} अभी खेल सकता है।",
+                computerThinking: "{name} सोच रहा है...",
+                
+                // Game over
+                gameOver: "गेम समाप्त!",
+                winner: "विजेता: {name} ({points} पॉइंट्स के साथ)",
+                gameDraw: "गेम ड्रॉ! इस बार कोई विजेता नहीं।",
+                roundResults: "राउंड-वार परिणाम",
+                finalRanking: "अंतिम रैंकिंग",
+                
+                // Popups
+                howToPlayTitle: "कैसे खेलें",
+                aboutUsTitle: "हमारे बारे में",
+                playOnlineTitle: "ऑनलाइन खेलें",
+                playFamilyTitle: "परिवार के साथ खेलें",
+                selectRoundTitle: "राउंड की संख्या चुनें",
+                pointSystemTitle: "पॉइंट सिस्टम",
+                playerHeader: "खिलाड़ी",
+                pointsHeader: "पॉइंट्स",
+                pointRulesTitle: "पॉइंट नियम",
+                roundHeader: "राउंड",
+                shareTitle: "गेम शेयर करें",
+                shareDescription: "अपने दोस्तों के साथ इस राजा मंत्री चोर सिपाही गेम को साझा करें",
+                
+                // How to play content
+                howToPlayContent: `
+                    <p><strong>राजा, मंत्री, चोर, सिपाही</strong> एक रोमांचक सामाजिक रणनीति गेम है। यहाँ गेम खेलने का तरीका:</p>
+                    
+                    <ul>
+                        <li>गेम में 4 खिलाड़ी होते हैं: राजा, मंत्री, चोर और सिपाही</li>
+                        <li>प्रत्येक खिलाड़ी को एक कार्ड मिलता है जो उनकी भूमिका बताता है</li>
+                        <li>राजा और मंत्री के कार्ड स्वतः खुल जाते हैं</li>
+                        <li>मंत्री को चोर का अनुमान लगाना होता है</li>
+                        <li>अगर मंत्री सही अनुमान लगाता है, तो उसे अतिरिक्त पॉइंट्स मिलते हैं</li>
+                        <li>अगर मंत्री गलत अनुमान लगाता है, तो मंत्री और चोर के पॉइंट्स बदल जाते हैं</li>
+                        <li>गेम 12 राउंड तक चलता है और सबसे अधिक पॉइंट्स वाला खिलाड़ी जीतता है</li>
+                    </ul>
+                    
+                    <h3>पॉइंट सिस्टम:</h3>
+                    <ul>
+                        <li>राजा: +10 पॉइंट्स</li>
+                        <li>मंत्री: +6 पॉइंट्स</li>
+                        <li>सिपाही: +3 पॉइंट्स</li>
+                        <li>चोर: -3 पॉइंट्स</li>
+                        <li>सही अनुमान: मंत्री +3 अतिरिक्त पॉइंट्स</li>
+                        <li>गलत अनुमान: मंत्री और चोर के पॉइंट्स बदल जाते हैं + मंत्री को -2 पॉइंट्स</li>
+                    </ul>
+                `,
+                
+                // About us content
+                aboutUsContent: `
+                    <p>यह गेम भारतीय परंपरागत खेल "राजा, मंत्री, चोर, सिपाही" पर आधारित है।</p>
+                    <p>हमारा उद्देश्य भारत की समृद्ध सांस्कृतिक विरासत को डिजिटल रूप में प्रस्तुत करना है।</p>
+                `,
+                
+                // Online play
+                searchingPlayers: "ऑनलाइन खिलाड़ियों की खोज की जा रही है...",
+                noPlayersFound: "कोई भी खिलाड़ी ऑनलाइन नहीं मिला",
+                onePlayerFound: "1 खिलाड़ी मिला, 3 और खिलाड़ियों की तलाश जारी है...",
+                twoPlayersFound: "2 खिलाड़ी मिले, 2 और खिलाड़ी की तलाश जारी है...",
+                playersNotFound: "खिलाड़ी नहीं मिले। कृपया बाद में पुनः प्रयास करें।",
+                playNow: "अभी खेलें",
+                
+                // Family play
+                enterPlayerNames: "कृपया सभी खिलाड़ियों के नाम दर्ज करें:",
+                playerLabel: "खिलाड़ी {num}:",
+                playNow: "अभी खेलें",
+                
+                // Round selection
+                selectRoundDesc: "कृपया खेलने के लिए राउंड की संख्या चुनें:",
+                confirmRound: "पुष्टि करें",
+                
+                // Point rules
+                pointRulesList: `
+                    <li>
+                        <span>राजा (King)</span>
+                        <span class="point-value">+10 पॉइंट्स</span>
+                    </li>
+                    <li>
+                        <span>मंत्री (Minister)</span>
+                        <span class="point-value">+6 पॉइंट्स</span>
+                    </li>
+                    <li>
+                        <span>सिपाही (Soldier)</span>
+                        <span class="point-value">+3 पॉइंट्स</span>
+                    </li>
+                    <li>
+                        <span>चोर (Thief)</span>
+                        <span class="point-value">-3 पॉइंट्स</span>
+                    </li>
+                    <li>
+                        <span>सही अनुमान</span>
+                        <span class="point-value">+3 पॉइंट्स</span>
+                    </li>
+                    <li>
+                        <span>गलत अनुमान</span>
+                        <span class="point-value">-2 पॉइंट्स</span>
+                    </li>
+                `
+            }
+        };
+        
+        // DOM elements
+        const welcomePage = document.getElementById('welcomePage');
+        const mainMenu = document.getElementById('mainMenu');
+        const gameContainer = document.getElementById('gameContainer');
+        const enterGameBtn = document.getElementById('enterGameBtn');
+        const homeBtn = document.getElementById('homeBtn');
+        const howToPlayBtn = document.getElementById('howToPlayBtn');
+        const aboutUsBtn = document.getElementById('aboutUsBtn');
+        const playOnlineBtn = document.getElementById('playOnlineBtn');
+        const playComputerBtn = document.getElementById('playComputerBtn');
+        const playFamilyBtn = document.getElementById('playFamilyBtn');
+        const selectRoundBtn = document.getElementById('selectRoundBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const languageBtn = document.getElementById('languageBtn');
+        const soundBtn = document.getElementById('soundBtn');
+        const languageText = document.getElementById('languageText');
+        const soundText = document.getElementById('soundText');
+        const howToPlayPopup = document.getElementById('howToPlayPopup');
+        const aboutUsPopup = document.getElementById('aboutUsPopup');
+        const playOnlinePopup = document.getElementById('playOnlinePopup');
+        const playFamilyPopup = document.getElementById('playFamilyPopup');
+        const selectRoundPopup = document.getElementById('selectRoundPopup');
+        const sharePopup = document.getElementById('sharePopup');
+        const closeHowToPlay = document.getElementById('closeHowToPlay');
+        const closeAboutUs = document.getElementById('closeAboutUs');
+        const closePlayOnline = document.getElementById('closePlayOnline');
+        const closePlayFamily = document.getElementById('closePlayFamily');
+        const closeSelectRound = document.getElementById('closeSelectRound');
+        const closeSharePopup = document.getElementById('closeSharePopup');
+        const closeHowToPlayBtn = document.getElementById('closeHowToPlayBtn');
+        const closeAboutUsBtn = document.getElementById('closeAboutUsBtn');
+        const closePlayOnlineBtn = document.getElementById('closePlayOnlineBtn');
+        const playNowBtn = document.getElementById('playNowBtn');
+        const playOnlineNowBtn = document.getElementById('playOnlineNowBtn');
+        const confirmRoundBtn = document.getElementById('confirmRoundBtn');
+        const infoBox = document.getElementById('infoBox');
+        const cardsLayout = document.getElementById('cardsLayout');
+        const roundInfo = document.getElementById('roundInfo');
+        const gameOverScreen = document.getElementById('gameOver');
+        const winnerDisplay = document.getElementById('winner');
+        const resultsBody = document.getElementById('resultsBody');
+        const playerRankings = document.getElementById('playerRankings');
+        const pointSystemIcon = document.getElementById('pointSystemIcon');
+        const pointSystemPopup = document.getElementById('pointSystemPopup');
+        const closePointSystemPopup = document.getElementById('closePointSystemPopup');
+        const countdown = document.getElementById('countdown');
+        const countdownNumber = document.getElementById('countdownNumber');
+        const roundOptions = document.querySelectorAll('.round-option');
+        const onlinePlayersList = document.getElementById('onlinePlayersList');
+        const tryAgainBtn = document.getElementById('tryAgainBtn');
+        const pauseOverlay = document.getElementById('pauseOverlay');
+        const pauseText = document.getElementById('pauseText');
+        const resumeBtn = document.getElementById('resumeBtn');
+        const warningMessage = document.getElementById('warningMessage');
+        const blockOverlay = document.getElementById('blockOverlay');
+        const gamePauseBtn = document.getElementById('gamePauseBtn');
+        const playTwoPlayers = document.getElementById('playTwoPlayers');
+        const playFourPlayers = document.getElementById('playFourPlayers');
+        const searchingSection = document.getElementById('searchingSection');
+        const onlineStatus = document.getElementById('onlineStatus');
+        const shareUrl = document.getElementById('shareUrl');
+        const copyUrlBtn = document.getElementById('copyUrlBtn');
+        const copiedMessage = document.getElementById('copiedMessage');
+        const whatsappShare = document.getElementById('whatsappShare');
+        const facebookShare = document.getElementById('facebookShare');
+        const twitterShare = document.getElementById('twitterShare');
+        const copyShare = document.getElementById('copyShare');
+        const shareDescription = document.getElementById('shareDescription');
+        
+        // Player name inputs
+        const player1Name = document.getElementById('player1Name');
+        const player2Name = document.getElementById('player2Name');
+        const player3Name = document.getElementById('player3Name');
+        const player4Name = document.getElementById('player4Name');
+
+        // Sound elements
+        const buttonClickSound = document.getElementById('buttonClickSound');
+        const cardFlipSound = document.getElementById('cardFlipSound');
+        const correctSound = document.getElementById('correctSound');
+        const wrongSound = document.getElementById('wrongSound');
+        const playerTurnSound = document.getElementById('playerTurnSound');
+        const winSound = document.getElementById('winSound');
+        const drawSound = document.getElementById('drawSound');
+        const countdownSound = document.getElementById('countdownSound');
+        const waitTurnSound = document.getElementById('waitTurnSound');
+
+        // Player colors for backgrounds
+        const playerColors = [
+            { background: 'linear-gradient(135deg, #ff5722, #ff9800)', text: '#fff' },
+            { background: 'linear-gradient(135deg, #2196F3, #21CBF3)', text: '#fff' },
+            { background: 'linear-gradient(135deg, #4CAF50, #8BC34A)', text: '#fff' },
+            { background: 'linear-gradient(135deg, #9C27B0, #E91E63)', text: '#fff' }
+        ];
+        
+        // Initialize the game
+        function initGame() {
+            // Set initial language
+            setLanguage(currentLanguage);
+            
+            // Play welcome sound
+            if (soundEnabled) {
+                try {
+                    playerTurnSound.play();
+                } catch (e) {
+                    console.error("Error playing welcome sound:", e);
+                }
+            }
+            
+            // Add event listeners
+            enterGameBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                showMainMenu();
+            });
+            homeBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                showWelcomePage();
+            });
+            howToPlayBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                showPopup(howToPlayPopup);
+            });
+            aboutUsBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                showPopup(aboutUsPopup);
+            });
+            playOnlineBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                showPopup(playOnlinePopup);
+                searchingSection.style.display = 'none';
+            });
+            playComputerBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                selectedGameMode = 'computer';
+                startGameWithComputer();
+            });
+            playFamilyBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                showPopup(playFamilyPopup);
+            });
+            selectRoundBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                showPopup(selectRoundPopup);
+            });
+            shareBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                showPopup(sharePopup);
+            });
+            languageBtn.addEventListener('click', toggleLanguage);
+            soundBtn.addEventListener('click', toggleSound);
+            
+            // Point system popup
+            pointSystemIcon.addEventListener('click', () => {
+                playButtonClickSound();
+                updatePointSystemPopup();
+                showPopup(pointSystemPopup);
+            });
+            closePointSystemPopup.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(pointSystemPopup);
+            });
+            
+            // Game header buttons
+            gameExitBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                goToMainMenu();
+            });
+            gameHomeBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                goToMainMenu();
+            });
+            gameOverExitBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                goToMainMenu();
+            });
+            gameOverHomeBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                goToMainMenu();
+            });
+            
+            // Pause button
+            gamePauseBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                togglePause();
+            });
+            resumeBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                togglePause();
+            });
+            
+            // Close popups
+            closeHowToPlay.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(howToPlayPopup);
+            });
+            closeAboutUs.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(aboutUsPopup);
+            });
+            closePlayOnline.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(playOnlinePopup);
+            });
+            closePlayFamily.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(playFamilyPopup);
+            });
+            closeSelectRound.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(selectRoundPopup);
+            });
+            closeSharePopup.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(sharePopup);
+            });
+            closeHowToPlayBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(howToPlayPopup);
+            });
+            closeAboutUsBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(aboutUsPopup);
+            });
+            closePlayOnlineBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(playOnlinePopup);
+            });
+            
+            // Play Now button (family mode)
+            playNowBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                startGameWithFamily();
+            });
+            
+            // Play Now button (online mode)
+            playOnlineNowBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                startOnlineSearch();
+            });
+            
+            // Confirm round button
+            confirmRoundBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                hidePopup(selectRoundPopup);
+            });
+            
+            // Round options
+            roundOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    playButtonClickSound();
+                    roundOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    totalRounds = parseInt(option.dataset.rounds);
+                });
+            });
+            
+            // Try again button
+            tryAgainBtn.addEventListener('click', () => {
+                playButtonClickSound();
+                startOnlineSearch();
+            });
+            
+            // Online mode options
+            playTwoPlayers.addEventListener('click', () => {
+                playButtonClickSound();
+                onlinePlayersMode = 2;
+                playTwoPlayers.classList.add('selected');
+                playFourPlayers.classList.remove('selected');
+            });
+            
+            playFourPlayers.addEventListener('click', () => {
+                playButtonClickSound();
+                onlinePlayersMode = 4;
+                playFourPlayers.classList.add('selected');
+                playTwoPlayers.classList.remove('selected');
+            });
+            
+            // Player mode selection in family popup
+            const familyModeButtons = document.querySelectorAll('#playFamilyPopup .mode-btn');
+            familyModeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    playButtonClickSound();
+                    familyModeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    familyPlayersMode = parseInt(button.dataset.players);
+                    
+                    // Show/hide player inputs based on mode
+                    if (familyPlayersMode === 2) {
+                        document.getElementById('player3Input').style.display = 'none';
+                        document.getElementById('player4Input').style.display = 'none';
+                    } else {
+                        document.getElementById('player3Input').style.display = 'flex';
+                        document.getElementById('player4Input').style.display = 'flex';
+                    }
+                });
+            });
+            
+            // Share functionality
+            copyUrlBtn.addEventListener('click', () => {
+                shareUrl.select();
+                document.execCommand('copy');
+                copiedMessage.style.display = 'block';
+                
+                setTimeout(() => {
+                    copiedMessage.style.display = 'none';
+                }, 2000);
+            });
+            
+            whatsappShare.addEventListener('click', () => {
+                const message = encodeURIComponent('Play this awesome Royals card game! ' + shareUrl.value);
+                window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
+            });
+            
+            facebookShare.addEventListener('click', () => {
+                window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl.value), '_blank');
+            });
+            
+            twitterShare.addEventListener('click', () => {
+                const message = encodeURIComponent('Check out this Royals card game! ' + shareUrl.value);
+                window.open('https://twitter.com/intent/tweet?text=' + message, '_blank');
+            });
+            
+            copyShare.addEventListener('click', () => {
+                shareUrl.select();
+                document.execCommand('copy');
+                copiedMessage.style.display = 'block';
+                
+                setTimeout(() => {
+                    copiedMessage.style.display = 'none';
+                }, 2000);
+            });
+        }
+        
+        // Play button click sound
+        function playButtonClickSound() {
+            if (soundEnabled) {
+                try {
+                    buttonClickSound.currentTime = 0;
+                    buttonClickSound.play();
+                } catch (e) {
+                    console.error("Error playing button click sound:", e);
+                }
+            }
+        }
+        
+        // Play card flip sound
+        function playCardFlipSound() {
+            if (soundEnabled) {
+                try {
+                    cardFlipSound.currentTime = 0;
+                    cardFlipSound.play();
+                } catch (e) {
+                    console.error("Error playing card flip sound:", e);
+                }
+            }
+        }
+        
+        // Play player turn sound
+        function playPlayerTurnSound() {
+            if (soundEnabled) {
+                try {
+                    playerTurnSound.currentTime = 0;
+                    playerTurnSound.play();
+                } catch (e) {
+                    console.error("Error playing player turn sound:", e);
+                }
+            }
+        }
+        
+        // Play correct sound
+        function playCorrectSound() {
+            if (soundEnabled) {
+                try {
+                    correctSound.currentTime = 0;
+                    correctSound.play();
+                } catch (e) {
+                    console.error("Error playing correct sound:", e);
+                }
+            }
+        }
+        
+        // Play wrong sound
+        function playWrongSound() {
+            if (soundEnabled) {
+                try {
+                    wrongSound.currentTime = 0;
+                    wrongSound.play();
+                } catch (e) {
+                    console.error("Error playing wrong sound:", e);
+                }
+            }
+        }
+        
+        // Play win sound
+        function playWinSound() {
+            if (soundEnabled) {
+                try {
+                    winSound.currentTime = 0;
+                    winSound.play();
+                } catch (e) {
+                    console.error("Error playing win sound:", e);
+                }
+            }
+        }
+        
+        // Play draw sound
+        function playDrawSound() {
+            if (soundEnabled) {
+                try {
+                    drawSound.currentTime = 0;
+                    drawSound.play();
+                } catch (e) {
+                    console.error("Error playing draw sound:", e);
+                }
+            }
+        }
+        
+        // Play countdown sound
+        function playCountdownSound() {
+            if (soundEnabled) {
+                try {
+                    countdownSound.currentTime = 0;
+                    countdownSound.play();
+                } catch (e) {
+                    console.error("Error playing countdown sound:", e);
+                }
+            }
+        }
+        
+        // Play wait turn sound
+        function playWaitTurnSound() {
+            if (soundEnabled) {
+                try {
+                    waitTurnSound.currentTime = 0;
+                    waitTurnSound.play();
+                } catch (e) {
+                    console.error("Error playing wait turn sound:", e);
+                }
+            }
+        }
+        
+        // Set language
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            const str = strings[lang];
+            
+            // Update welcome page
+            document.getElementById('welcomeTitle').textContent = str.welcomeTitle;
+            document.getElementById('welcomeSubtitle').textContent = str.welcomeSubtitle;
+            enterGameBtn.innerHTML = `<i class="fas fa-gamepad"></i> ${str.enterGameBtn}`;
+            languageText.textContent = str.languageText;
+            soundText.textContent = str.soundText;
+            
+            // Update main menu
+            document.getElementById('menuTitle').textContent = str.menuTitle;
+            document.getElementById('menuHome').textContent = str.menuHome;
+            document.getElementById('menuHowToPlay').textContent = str.menuHowToPlay;
+            document.getElementById('menuAboutUs').textContent = str.menuAboutUs;
+            document.getElementById('menuPlayOnline').textContent = str.menuPlayOnline;
+            document.getElementById('menuPlayComputer').textContent = str.menuPlayComputer;
+            document.getElementById('menuPlayFamily').textContent = str.menuPlayFamily;
+            document.getElementById('menuSelectRound').textContent = str.menuSelectRound;
+            document.getElementById('menuShare').textContent = str.menuShare;
+            
+            // Update game screen
+            document.getElementById('btnExit').textContent = str.btnExit;
+            document.getElementById('btnHome').textContent = str.btnHome;
+            document.getElementById('btnPause').textContent = str.btnPause;
+            document.getElementById('btnResume').textContent = str.btnResume;
+            document.getElementById('btnRestart').textContent = str.btnRestart;
+            document.getElementById('btnExit2').textContent = str.btnExit;
+            document.getElementById('btnHome2').textContent = str.btnHome;
+            
+            // Update popups
+            document.getElementById('howToPlayTitle').textContent = str.howToPlayTitle;
+            document.getElementById('aboutUsTitle').textContent = str.aboutUsTitle;
+            document.getElementById('playOnlineTitle').textContent = str.playOnlineTitle;
+            document.getElementById('playFamilyTitle').textContent = str.playFamilyTitle;
+            document.getElementById('selectRoundTitle').textContent = str.selectRoundTitle;
+            document.getElementById('pointSystemTitle').textContent = str.pointSystemTitle;
+            document.getElementById('playerHeader').textContent = str.playerHeader;
+            document.getElementById('pointsHeader').textContent = str.pointsHeader;
+            document.getElementById('pointRulesTitle').textContent = str.pointRulesTitle;
+            document.getElementById('roundHeader').textContent = str.roundHeader;
+            document.getElementById('resultTitle').textContent = str.gameOver;
+            document.getElementById('roundResultsTitle').textContent = str.roundResults;
+            document.getElementById('finalRankingTitle').textContent = str.finalRanking;
+            document.getElementById('shareTitle').textContent = str.shareTitle;
+            shareDescription.textContent = str.shareDescription;
+            
+            // Update popup content
+            document.getElementById('howToPlayContent').innerHTML = str.howToPlayContent;
+            document.getElementById('aboutUsContent').innerHTML = str.aboutUsContent;
+            document.getElementById('pointRulesList').innerHTML = str.pointRulesList;
+            document.getElementById('searchingPlayers').textContent = str.searchingPlayers;
+            document.getElementById('enterPlayerNames').textContent = str.enterPlayerNames;
+            document.getElementById('player1Label').textContent = str.playerLabel.replace('{num}', '1');
+            document.getElementById('player2Label').textContent = str.playerLabel.replace('{num}', '2');
+            document.getElementById('player3Label').textContent = str.playerLabel.replace('{num}', '3');
+            document.getElementById('player4Label').textContent = str.playerLabel.replace('{num}', '4');
+            document.getElementById('playNowBtn').textContent = str.playNow;
+            document.getElementById('playOnlineNowBtn').textContent = str.playNow;
+            document.getElementById('selectRoundDesc').textContent = str.selectRoundDesc;
+            document.getElementById('confirmRoundBtn').textContent = str.confirmRound;
+            document.getElementById('tryAgainBtn').textContent = str.playersNotFound;
+            
+            // Update pause text
+            pauseText.textContent = str.gameOver === "Game Over!" ? "Game Paused" : "गेम रोका गया";
+        }
+        
+        // Toggle language
+        function toggleLanguage() {
+            playButtonClickSound();
+            currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
+            setLanguage(currentLanguage);
+        }
+        
+        // Toggle sound
+        function toggleSound() {
+            playButtonClickSound();
+            soundEnabled = !soundEnabled;
+            
+            // Update button text
+            soundText.textContent = soundEnabled ? 
+                (currentLanguage === 'en' ? 'Sound On' : 'ध्वनि चालू') : 
+                (currentLanguage === 'en' ? 'Sound Off' : 'ध्वनि बंद');
+            
+            // Update icon
+            const icon = soundBtn.querySelector('i');
+            if (soundEnabled) {
+                icon.classList.remove('fa-volume-mute');
+                icon.classList.add('fa-volume-up');
+            } else {
+                icon.classList.remove('fa-volume-up');
+                icon.classList.add('fa-volume-mute');
+            }
+        }
+        
+        // Update point system popup with current points
+        function updatePointSystemPopup() {
+            const currentPointsBody = document.getElementById('currentPointsBody');
+            currentPointsBody.innerHTML = '';
+            
+            players.forEach(player => {
+                if (player.hidden) return;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${player.name}</td>
+                    <td>${player.points}</td>
+                `;
+                currentPointsBody.appendChild(row);
+            });
+        }
+        
+        // Go to main menu
+        function goToMainMenu() {
+            gameContainer.style.display = 'none';
+            gameOverScreen.classList.remove('show');
+            mainMenu.style.display = 'flex';
+        }
+        
+        // Show main menu
+        function showMainMenu() {
+            welcomePage.style.display = 'none';
+            mainMenu.style.display = 'flex';
+        }
+        
+        // Show welcome page
+        function showWelcomePage() {
+            mainMenu.style.display = 'none';
+            gameContainer.style.display = 'none';
+            welcomePage.style.display = 'flex';
+        }
+        
+        // Show popup
+        function showPopup(popup) {
+            blockOverlay.style.display = 'block';
+            popup.style.display = 'block';
+        }
+        
+        // Hide popup
+        function hidePopup(popup) {
+            blockOverlay.style.display = 'none';
+            popup.style.display = 'none';
+        }
+        
+        // Toggle pause
+        function togglePause() {
+            isPaused = !isPaused;
+            if (isPaused) {
+                pauseOverlay.style.display = 'flex';
+                gamePauseBtn.querySelector('i').className = 'fas fa-play';
+                gamePauseBtn.querySelector('span').textContent = strings[currentLanguage].btnResume;
+                
+                // Clear all active timeouts
+                clearAllTimeouts();
+            } else {
+                pauseOverlay.style.display = 'none';
+                gamePauseBtn.querySelector('i').className = 'fas fa-pause';
+                gamePauseBtn.querySelector('span').textContent = strings[currentLanguage].btnPause;
+                
+                // Restart the round if game was active
+                if (gameActive) {
+                    startRound();
+                }
+            }
+        }
+        
+        // Clear all timeouts
+        function clearAllTimeouts() {
+            while (activeTimeouts.length) {
+                clearTimeout(activeTimeouts.pop());
+            }
+        }
+        
+        // Show warning message
+        function showWarning(message) {
+            warningMessage.textContent = message;
+            warningMessage.style.display = 'block';
+            playWaitTurnSound();
+            
+            setTimeout(() => {
+                warningMessage.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Start game with computer
+        function startGameWithComputer() {
+            // Set bot names as R2, R3, R4
+            players[0].name = "You";
+            players[1].name = "R2";
+            players[2].name = "R3";
+            players[3].name = "R4";
+            
+            // Set player types and visibility
+            players[0].isHuman = true;
+            players[0].hidden = false;
+            players[1].isHuman = false;
+            players[1].hidden = false;
+            players[2].isHuman = false;
+            players[2].hidden = false;
+            players[3].isHuman = false;
+            players[3].hidden = false;
+            
+            selectedGameMode = 'computer';
+            mainMenu.style.display = 'none';
+            startCountdown();
+        }
+        
+        // Start game with family
+        function startGameWithFamily() {
+            // Get player names from inputs
+            players[0].name = player1Name.value || "You";
+            players[1].name = player2Name.value || "Player 2";
+            players[2].name = player3Name.value || (familyPlayersMode === 2 ? "" : "Player 3");
+            players[3].name = player4Name.value || (familyPlayersMode === 2 ? "" : "Player 4");
+            
+            // Set all players as human
+            players[0].isHuman = true;
+            players[1].isHuman = true;
+            players[2].isHuman = familyPlayersMode === 4;
+            players[3].isHuman = familyPlayersMode === 4;
+            
+            // Set visibility based on mode
+            players[0].hidden = false;
+            players[1].hidden = false;
+            players[2].hidden = familyPlayersMode === 2;
+            players[3].hidden = familyPlayersMode === 2;
+            
+            selectedGameMode = 'family';
+            hidePopup(playFamilyPopup);
+            startCountdown();
+        }
+        
+        // Start online game
+        function startOnlineSearch() {
+            const str = strings[currentLanguage];
+            onlinePlayers = [];
+            onlinePlayersList.style.display = 'none';
+            tryAgainBtn.style.display = 'none';
+            searchingSection.style.display = 'block';
+            
+            document.getElementById('searchingPlayers').textContent = str.searchingPlayers;
+            document.getElementById('onlineStatus').textContent = '';
+            
+            // Clear player list
+            while (onlinePlayersList.children.length > 1) {
+                onlinePlayersList.removeChild(onlinePlayersList.lastChild);
+            }
+            
+            // Add "You" to player list
+            const playerItem = document.createElement('div');
+            playerItem.className = 'player-list-item';
+            playerItem.innerHTML = `
+                <div class="player-status waiting"></div>
+                <div class="player-name-text">You</div>
+            `;
+            onlinePlayersList.appendChild(playerItem);
+            
+            // Simulate finding players
+            setTimeout(() => {
+                // Add players based on mode
+                let playersToAdd = onlinePlayersMode === 2 ? 1 : 3;
+                for (let i = 0; i < playersToAdd; i++) {
+                    const playerName = generateBotName();
+                    onlinePlayers.push(playerName);
+                    
+                    const playerItem = document.createElement('div');
+                    playerItem.className = 'player-list-item';
+                    playerItem.innerHTML = `
+                        <div class="player-status connected"></div>
+                        <div class="player-name-text">${playerName}</div>
+                    `;
+                    onlinePlayersList.appendChild(playerItem);
+                }
+                
+                document.getElementById('searchingPlayers').textContent = "Players found!";
+                onlinePlayersList.style.display = 'block';
+                
+                setTimeout(() => {
+                    hidePopup(playOnlinePopup);
+                    players[0].name = "You";
+                    players[0].isHuman = true;
+                    players[0].hidden = false;
+                    players[1].name = onlinePlayers[0] || generateBotName();
+                    players[1].isHuman = false;
+                    players[1].hidden = false;
+                    
+                    if (onlinePlayersMode === 4) {
+                        players[2].name = onlinePlayers[1] || generateBotName();
+                        players[2].isHuman = false;
+                        players[2].hidden = false;
+                        players[3].name = onlinePlayers[2] || generateBotName();
+                        players[3].isHuman = false;
+                        players[3].hidden = false;
+                    } else {
+                        // For 2 player mode, show all cards but only award points to first 2 players
+                        players[2].name = generateBotName();
+                        players[2].isHuman = false;
+                        players[2].hidden = true;  // Hide player info
+                        players[3].name = generateBotName();
+                        players[3].isHuman = false;
+                        players[3].hidden = true;  // Hide player info
+                    }
+                    
+                    selectedGameMode = 'online';
+                    startCountdown();
+                }, 2000);
+            }, 3000);
+        }
+        
+        // Start countdown before game starts
+        function startCountdown() {
+            mainMenu.style.display = 'none';
+            countdown.style.display = 'flex';
+            let count = 3;
+            
+            // Play countdown sound
+            playCountdownSound();
+            
+            const countdownInterval = setInterval(() => {
+                countdownNumber.textContent = count;
+                
+                if (count === 0) {
+                    clearInterval(countdownInterval);
+                    countdown.style.display = 'none';
+                    startGame();
+                }
+                
+                count--;
+            }, 1000);
+        }
+        
+        // Start the game
+        function startGame() {
+            gameContainer.style.display = 'block';
+            
+            // Reset game data
+            currentRound = 1;
+            roundsData = [];
+            currentMantriIndex = 0; // Reset Mantri index
+            players.forEach(player => {
+                player.points = 0;
+                player.pointsHistory = [];
+            });
+            
+            assignRoles();
+            renderGame();
+            startRound();
+        }
+        
+        // Assign roles with Mantri rotation
+        function assignRoles() {
+            // For 2 players mode (online or family) we assign roles differently
+            if ((selectedGameMode === 'online' || selectedGameMode === 'family') && 
+                (onlinePlayersMode === 2 || familyPlayersMode === 2)) {
+                // 2 players mode: non-hidden players are at index0 and index1
+                if (currentRound % 2 === 1) {
+                    players[0].role = ROLES.MANTRI;
+                    players[1].role = ROLES.RAJA;
+                } else {
+                    players[0].role = ROLES.RAJA;
+                    players[1].role = ROLES.MANTRI;
+                }
+
+                // Assign Chor and Sipahi to the hidden players (index2 and index3)
+                const hiddenRoles = [ROLES.CHOR, ROLES.SIPAHI];
+                shuffleArray(hiddenRoles);
+                players[2].role = hiddenRoles[0];
+                players[3].role = hiddenRoles[1];
+
+                // Set mantriPlayer for this round
+                mantriPlayer = players[0].role === ROLES.MANTRI ? players[0] : players[1];
+            } else {
+                // Existing assignment for 4 players or computer mode
+                players[currentMantriIndex].role = ROLES.MANTRI;
+                
+                // The remaining roles
+                const remainingRoles = [ROLES.RAJA, ROLES.SIPAHI, ROLES.CHOR];
+                
+                // Shuffle the remaining roles
+                shuffleArray(remainingRoles);
+                
+                // Assign roles to all other players (including hidden ones)
+                let roleIndex = 0;
+                for (let i = 0; i < players.length; i++) {
+                    if (i === currentMantriIndex) continue;
+                    players[i].role = remainingRoles[roleIndex];
+                    roleIndex++;
+                }
+                
+                // Set mantriPlayer
+                mantriPlayer = players[currentMantriIndex];
+                
+                // Update Mantri index for next round
+                currentMantriIndex = (currentMantriIndex + 1) % 4;
+            }
+        }
+        
+        // Helper function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        // Render the game UI
+        function renderGame() {
+            const topRow = cardsLayout.querySelector('.cards-row:first-child');
+            const bottomRow = cardsLayout.querySelector('.cards-row:last-child');
+            
+            if (!topRow || !bottomRow) {
+                cardsLayout.innerHTML = `
+                    <div class="cards-row"></div>
+                    <div class="cards-row"></div>
+                `;
+            }
+            
+            const topRowNew = cardsLayout.querySelector('.cards-row:first-child');
+            const bottomRowNew = cardsLayout.querySelector('.cards-row:last-child');
+            
+            topRowNew.innerHTML = '';
+            bottomRowNew.innerHTML = '';
+            
+            // First two players in top row
+            for (let i = 0; i < Math.min(2, players.length); i++) {
+                const player = players[i];
+                const wrapper = createPlayerCardWrapper(player, i);
+                topRowNew.appendChild(wrapper);
+                player.wrapperElement = wrapper;
+            }
+            
+            // Last players in bottom row
+            for (let i = 2; i < players.length; i++) {
+                const player = players[i];
+                const wrapper = createPlayerCardWrapper(player, i);
+                bottomRowNew.appendChild(wrapper);
+                player.wrapperElement = wrapper;
+            }
+            
+            // Update round info
+            roundInfo.textContent = strings[currentLanguage].roundInfo
+                .replace('{current}', currentRound)
+                .replace('{total}', totalRounds);
+        }
+        
+        // Create player card wrapper
+        function createPlayerCardWrapper(player, index) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'card-wrapper';
+            
+            // Player info (only for non-hidden players)
+            if (!player.hidden) {
+                const playerInfo = document.createElement('div');
+                playerInfo.className = 'player-info';
+                
+                // Assign unique color to each player
+                const colorIndex = index % playerColors.length;
+                playerInfo.style.background = playerColors[colorIndex].background;
+                playerInfo.style.color = playerColors[colorIndex].text;
+                
+                playerInfo.innerHTML = `
+                    <div class="player-name">${player.name}</div>
+                    <div class="player-points">${player.points} ${currentLanguage === 'hi' ? 'पॉइंट्स' : 'Points'}</div>
+                `;
+                wrapper.appendChild(playerInfo);
+            }
+            
+            // Card element
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-back">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div class="card-front">
+                        <div class="card-role">${player.role ? player.role.name : ''}</div>
+                        <div class="card-value">${player.role ? player.role.value : ''}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Add crown for Raja
+            if (player.role === ROLES.RAJA) {
+                const crown = document.createElement('div');
+                crown.className = 'king-crown';
+                crown.innerHTML = '<i class="fas fa-crown"></i>';
+                card.appendChild(crown);
+            }
+            
+            // Add role badge for Mantri and Raja
+            if (player.role === ROLES.MANTRI || player.role === ROLES.RAJA) {
+                const badge = document.createElement('div');
+                badge.className = 'role-badge';
+                badge.textContent = player.role.name;
+                badge.style.background = player.role.color;
+                card.appendChild(badge);
+            }
+            
+            wrapper.appendChild(card);
+            
+            // Add turn indicator for every player
+            const turnIndicator = document.createElement('div');
+            turnIndicator.className = 'turn-indicator inactive';
+            wrapper.appendChild(turnIndicator);
+            player.turnIndicator = turnIndicator;
+            
+            player.cardElement = card;
+            
+            // Add event listener for Mantri card only if player is human
+            if (player.role === ROLES.MANTRI && player.isHuman) {
+                card.addEventListener('click', () => {
+                    handleMantriClick();
+                });
+            }
+            
+            // Add event listener for Chor/Sipahi cards
+            if (player.role === ROLES.CHOR || player.role === ROLES.SIPAHI) {
+                card.addEventListener('click', (event) => {
+                    // Only allow interaction during Mantri's turn and if it's the player's turn
+                    if (!isMantriTurn || isPaused || !gameActive || !mantriPlayer.isHuman) {
+                        const str = strings[currentLanguage];
+                        showWarning(str.waitTurn.replace('{name}', mantriPlayer ? mantriPlayer.name : "Mantri"));
+                        return;
+                    }
+                    handleChorSipahiClick(event);
+                });
+            }
+            
+            return wrapper;
+        }
+        
+        // Start a new round
+        function startRound() {
+            if (currentRound > totalRounds) {
+                endGame();
+                return;
+            }
+            
+            // Reset info box classes
+            infoBox.classList.remove('correct', 'wrong');
+            infoBox.textContent = strings[currentLanguage].dealingCards;
+            gameActive = true;
+            
+            // Update round info
+            roundInfo.textContent = strings[currentLanguage].roundInfo
+                .replace('{current}', currentRound)
+                .replace('{total}', totalRounds);
+            
+            // Reset all turn indicators
+            players.forEach(player => {
+                if (player.turnIndicator) {
+                    player.turnIndicator.classList.remove('active');
+                    player.turnIndicator.classList.add('inactive');
+                }
+            });
+            
+            // Automatically show Raja and Mantri cards
+            const timeout1 = setTimeout(() => {
+                players.forEach(player => {
+                    if (player.role === ROLES.RAJA || player.role === ROLES.MANTRI) {
+                        player.cardElement.classList.add('flipped');
+                        playCardFlipSound();
+                    }
+                });
+                
+                const timeout2 = setTimeout(() => {
+                    infoBox.textContent = strings[currentLanguage].mantriTurn.replace('{name}', mantriPlayer.name);
+                    
+                    // Highlight the Mantri's turn only if it's a human player
+                    if (mantriPlayer.isHuman && mantriPlayer.turnIndicator) {
+                        mantriPlayer.turnIndicator.classList.remove('inactive');
+                        mantriPlayer.turnIndicator.classList.add('active');
+                        
+                        // Play turn sound for human player
+                        playPlayerTurnSound();
+                    }
+                    
+                    // Add blink effect to Mantri card
+                    if (mantriPlayer.cardElement) {
+                        mantriPlayer.cardElement.classList.add('mantri-blink');
+                    }
+                    
+                    isMantriTurn = true;
+                    
+                    // If Mantri is computer, let it think for a while
+                    if (!mantriPlayer.isHuman) {
+                        infoBox.textContent = strings[currentLanguage].computerThinking.replace('{name}', mantriPlayer.name);
+                        
+                        // Set different thinking times based on game mode
+                        let thinkingTime;
+                        if (selectedGameMode === 'computer') {
+                            thinkingTime = Math.floor(Math.random() * 1000) + 2000; // 2-3 seconds for bots
+                        } else if (selectedGameMode === 'online' && onlinePlayersMode === 2) {
+                            // For online 2 players mode, Player 2 (bot) flips within 3 seconds
+                            thinkingTime = Math.floor(Math.random() * 2000) + 1000; // 1-3 seconds
+                        } else {
+                            thinkingTime = Math.floor(Math.random() * 2000) + 5000; // 5-7 seconds for other modes
+                        }
+                        
+                        const timeout3 = setTimeout(() => {
+                            computerMantriTurn();
+                        }, thinkingTime);
+                        activeTimeouts.push(timeout3);
+                    }
+                }, 2000); // Increased delay for smoother gameplay
+                activeTimeouts.push(timeout2);
+            }, 2000); // Increased delay for smoother gameplay
+            activeTimeouts.push(timeout1);
+        }
+        
+        // Handle Mantri card click
+        function handleMantriClick() {
+            if (!gameActive || !mantriPlayer || isPaused) return;
+            
+            infoBox.textContent = strings[currentLanguage].clickToGuess.replace('{name}', mantriPlayer.name);
+            isMantriTurn = true;
+        }
+        
+        // Computer Mantri turn
+        function computerMantriTurn() {
+            if (!gameActive || !mantriPlayer || isPaused) return;
+            
+            // Find Chor and Sipahi players (include hidden players)
+            const chorSipahiPlayers = players.filter(p => 
+                (p.role === ROLES.CHOR || p.role === ROLES.SIPAHI)
+            );
+            
+            // Randomly select one
+            const randomIndex = Math.floor(Math.random() * chorSipahiPlayers.length);
+            const selectedPlayer = chorSipahiPlayers[randomIndex];
+            
+            // Create a fake event to pass to handleChorSipahiClick
+            const event = {
+                currentTarget: selectedPlayer.cardElement
+            };
+            
+            // Show both Chor and Sipahi cards immediately
+            players.forEach(player => {
+                if (player.role === ROLES.CHOR || player.role === ROLES.SIPAHI) {
+                    player.cardElement.classList.add('flipped');
+                    playCardFlipSound();
+                }
+            });
+            
+            // Remove Mantri blink effect
+            mantriPlayer.cardElement.classList.remove('mantri-blink');
+            
+            // Reset Mantri's turn indicator
+            if (mantriPlayer.turnIndicator) {
+                mantriPlayer.turnIndicator.classList.remove('active');
+                mantriPlayer.turnIndicator.classList.add('inactive');
+            }
+            
+            // Store round points before updating
+            const startingPoints = players.map(player => player.points);
+            
+            // Assign base points to all non-hidden players based on their roles
+            players.forEach(player => {
+                if (player.hidden) return; // Skip hidden players
+                
+                if (player.role === ROLES.RAJA) {
+                    player.points += 10;
+                } else if (player.role === ROLES.MANTRI) {
+                    player.points += 6;
+                } else if (player.role === ROLES.SIPAHI) {
+                    player.points += 3;
+                } else if (player.role === ROLES.CHOR) {
+                    player.points -= 3;
+                }
+            });
+            
+            // Check if guess is correct
+            const timeout1 = setTimeout(() => {
+                if (selectedPlayer.role === ROLES.CHOR) {
+                    infoBox.textContent = strings[currentLanguage].correctGuess;
+                    infoBox.classList.add('correct');
+                    mantriPlayer.points += 3; // Bonus points for correct guess
+                    
+                    // Play correct sound
+                    playCorrectSound();
+                    createConfetti(20);
+                } else {
+                    infoBox.textContent = strings[currentLanguage].wrongGuess;
+                    infoBox.classList.add('wrong');
+                    
+                    // Play wrong sound
+                    playWrongSound();
+                    
+                    // Find Chor player
+                    const chorPlayer = players.find(p => p.role === ROLES.CHOR);
+                    
+                    // Exchange only the round points between Mantri and Chor
+                    const mantriRoundPoints = 6;
+                    const chorRoundPoints = -3;
+                    
+                    // Remove the base points we added earlier
+                    mantriPlayer.points -= mantriRoundPoints;
+                    chorPlayer.points -= chorRoundPoints;
+                    
+                    // Exchange the points
+                    mantriPlayer.points += chorRoundPoints;
+                    chorPlayer.points += mantriRoundPoints;
+                    
+                    // Additional penalty for Mantri
+                    mantriPlayer.points -= 2;
+                }
+                
+            // Record points for this round
+            players.forEach((player, index) => {
+                if (player.hidden) return; // Skip hidden players
+                player.pointsHistory.push(player.points - startingPoints[index]);
+            });
+            
+            // Update points display
+            players.forEach(player => {
+                if (player.hidden) return;
+                
+                if (player.wrapperElement) {
+                    const pointsElement = player.wrapperElement.querySelector('.player-points');
+                    if (pointsElement) {
+                        pointsElement.textContent = 
+                            `${player.points} ${currentLanguage === 'hi' ? 'पॉइंट्स' : 'Points'}`;
+                    }
+                }
+            });
+            
+            // Move to next round after delay
+            const timeout2 = setTimeout(() => {
+                // Prepare for next round
+                currentRound++;
+                
+                // Reassign roles for next round
+                assignRoles();
+                renderGame();
+                
+                // Start next round
+                startRound();
+            }, 3000);
+            activeTimeouts.push(timeout2);
+        }, 1000);
+        activeTimeouts.push(timeout1);
+    }
+    
+    // Handle Chor or Sipahi card click
+    function handleChorSipahiClick(event) {
+        if (!gameActive || isPaused) return;
+        
+        gameActive = false;
+        isMantriTurn = false;
+        const clickedCard = event.currentTarget;
+        const clickedPlayer = players.find(p => p.cardElement === clickedCard);
+        const chorPlayer = players.find(p => p.role === ROLES.CHOR);
+        
+        // Show both Chor and Sipahi cards
+        players.forEach(player => {
+            if (player.role === ROLES.CHOR || player.role === ROLES.SIPAHI) {
+                player.cardElement.classList.add('flipped');
+                playCardFlipSound();
+            }
+        });
+        
+        // Remove Mantri blink effect
+        mantriPlayer.cardElement.classList.remove('mantri-blink');
+        
+        // Reset Mantri's turn indicator
+        if (mantriPlayer.turnIndicator) {
+            mantriPlayer.turnIndicator.classList.remove('active');
+            mantriPlayer.turnIndicator.classList.add('inactive');
+        }
+        
+        // Store round points before updating
+        const startingPoints = players.map(player => player.points);
+        
+        // Assign base points to all non-hidden players based on their roles
+        players.forEach(player => {
+            if (player.hidden) return; // Skip hidden players
+            
+            if (player.role === ROLES.RAJA) {
+                player.points += 10;
+            } else if (player.role === ROLES.MANTRI) {
+                player.points += 6;
+            } else if (player.role === ROLES.SIPAHI) {
+                player.points += 3;
+            } else if (player.role === ROLES.CHOR) {
+                player.points -= 3;
+            }
+        });
+        
+        // Check if guess is correct
+        const timeout1 = setTimeout(() => {
+            if (clickedPlayer.role === ROLES.CHOR) {
+                infoBox.textContent = strings[currentLanguage].correctGuess;
+                infoBox.classList.add('correct');
+                mantriPlayer.points += 3; // Bonus points for correct guess
+                chorPlayer.points -= 3; // Penalty for Chor
+                
+                // Play correct sound
+                playCorrectSound();
+                createConfetti(20);
+            } else {
+                infoBox.textContent = strings[currentLanguage].wrongGuess;
+                infoBox.classList.add('wrong');
+                
+                // Play wrong sound
+                playWrongSound();
+                
+                // Exchange only the round points between Mantri and Chor
+                const mantriRoundPoints = 6;
+                const chorRoundPoints = -3;
+                
+                // Remove the base points we added earlier
+                mantriPlayer.points -= mantriRoundPoints;
+                chorPlayer.points -= chorRoundPoints;
+                
+                // Exchange the points
+                mantriPlayer.points += chorRoundPoints;
+                chorPlayer.points += mantriRoundPoints;
+                
+                // Additional penalty for Mantri
+                mantriPlayer.points -= 2;
+            }
+            
+            // Record points for this round
+            players.forEach((player, index) => {
+                if (player.hidden) return; // Skip hidden players
+                player.pointsHistory.push(player.points - startingPoints[index]);
+            });
+            
+            // Update points display
+            players.forEach(player => {
+                if (player.hidden) return;
+                
+                if (player.wrapperElement) {
+                    const pointsElement = player.wrapperElement.querySelector('.player-points');
+                    if (pointsElement) {
+                        pointsElement.textContent = 
+                            `${player.points} ${currentLanguage === 'hi' ? 'पॉइंट्स' : 'Points'}`;
+                    }
+                }
+            });
+            
+            // Move to next round after delay
+            const timeout2 = setTimeout(() => {
+                // Prepare for next round
+                currentRound++;
+                
+                // Reassign roles for next round
+                assignRoles();
+                renderGame();
+                
+                // Start next round
+                startRound();
+            }, 3000);
+            activeTimeouts.push(timeout2);
+        }, 1000);
+        activeTimeouts.push(timeout1);
+    }
+    
+    // Create confetti effect
+        function createConfetti(count = 100) {
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        // Get random color for confetti
+        function getRandomColor() {
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', 
+                            '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', 
+                            '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        // End the game
+        function endGame() {
+            // Record final points
+            players.forEach(player => {
+                if (player.hidden) return; // Skip hidden players
+                
+                player.pointsHistory.push(player.points - 
+                    (player.pointsHistory.reduce((sum, val) => sum + val, 0)));
+            });
+            
+            // Generate results table
+            generateResultsTable();
+            
+            // Generate rankings
+            generateRankings();
+            
+            // Check if game is draw
+            const visiblePlayers = players.filter(player => !player.hidden);
+            const sortedPlayers = [...visiblePlayers].sort((a, b) => b.points - a.points);
+            const isDraw = sortedPlayers.length >= 2 && sortedPlayers[0].points === sortedPlayers[1].points;
+            
+            // Play appropriate sound
+            if (isDraw) {
+                playDrawSound();
+            } else {
+                playWinSound();
+            }
+            
+            // Show game over screen
+            gameOverScreen.classList.add('show');
+            createConfetti(300);
+        }
+        
+        // Generate results table
+        function generateResultsTable() {
+            resultsBody.innerHTML = '';
+            
+            // Add headers
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `<th>${strings[currentLanguage].roundHeader}</th>`;
+            
+            players.forEach(player => {
+                if (player.hidden) return;
+                headerRow.innerHTML += `<th>${player.name}</th>`;
+            });
+            
+            resultsBody.appendChild(headerRow);
+            
+            // Add rows for each round
+            for (let round = 0; round < totalRounds; round++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${round + 1}</td>`;
+                
+                for (let i = 0; i < players.length; i++) {
+                    if (players[i].hidden) continue;
+                    
+                    const points = players[i].pointsHistory[round] || 0;
+                    row.innerHTML += `<td>${points > 0 ? '+' + points : points}</td>`;
+                }
+                
+                resultsBody.appendChild(row);
+            }
+            
+            // Add total row
+            const totalRow = document.createElement('tr');
+            totalRow.className = 'total-row';
+            totalRow.innerHTML = `<td>${currentLanguage === 'hi' ? 'कुल' : 'Total'}</td>`;
+            
+            for (let i = 0; i < players.length; i++) {
+                if (players[i].hidden) continue;
+                totalRow.innerHTML += `<td>${players[i].points}</td>`;
+            }
+            
+            resultsBody.appendChild(totalRow);
+        }
+        
+        // Generate player rankings
+        function generateRankings() {
+            playerRankings.innerHTML = '';
+            
+            // Get visible players
+            const visiblePlayers = players.filter(player => !player.hidden);
+            
+            // Sort players by points
+            const sortedPlayers = [...visiblePlayers].sort((a, b) => b.points - a.points);
+            
+            // Check if top two players have same score
+            const isDraw = sortedPlayers.length >= 2 && sortedPlayers[0].points === sortedPlayers[1].points;
+            
+            // Create ranking items
+            sortedPlayers.forEach((player, index) => {
+                const rankingItem = document.createElement('div');
+                rankingItem.className = 'ranking-item';
+                
+                // Only show winner highlight if not a draw and it's the top player
+                if (index === 0 && !isDraw) {
+                    rankingItem.classList.add('winner');
+                }
+                
+                const rankText = ['1st', '2nd', '3rd', '4th'][index];
+                const medalIcons = ['🥇', '🥈', '🥉', '4️⃣'];
+                
+                rankingItem.innerHTML = `
+                    <div class="rank-number">${rankText}</div>
+                    <div class="player-details">
+                        <div class="player-rank-name">
+                            <span class="medal-icon">${medalIcons[index]}</span>
+                            ${player.name}
+                        </div>
+                        <div class="player-rank-points">${player.points} ${currentLanguage === 'hi' ? 'पॉइंट्स' : 'Points'}</div>
+                    </div>
+                    ${index === 0 && !isDraw ? '<div class="trophy-icon"><i class="fas fa-trophy"></i></div>' : ''}
+                `;
+                
+                playerRankings.appendChild(rankingItem);
+            });
+            
+            // Set winner text
+            if (isDraw) {
+                winnerDisplay.textContent = strings[currentLanguage].gameDraw;
+            } else {
+                winnerDisplay.textContent = strings[currentLanguage].winner
+                    .replace('{name}', sortedPlayers[0].name)
+                    .replace('{points}', sortedPlayers[0].points);
+            }
+        }
+        
+        // Restart the game
+        function restartGame() {
+            playButtonClickSound();
+            gameOverScreen.classList.remove('show');
+            
+            if (selectedGameMode === 'family') {
+                startGameWithFamily();
+            } else if (selectedGameMode === 'online') {
+                // For online mode, show the popup again
+                showPopup(playOnlinePopup);
+            } else {
+                // Default to computer mode
+                startGameWithComputer();
+            }
+        }
+        
+        // Generate bot name
+        function generateBotName() {
+            return botNames[Math.floor(Math.random() * botNames.length)];
+        }
+        
+        // Initialize the game on load
+        window.onload = initGame;
+    </script>
+</body>
+</html>
