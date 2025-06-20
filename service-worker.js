@@ -1,14 +1,24 @@
+
 self.addEventListener('install', function(e) {
   e.waitUntil(
-    caches.open('raja-game').then(function(cache) {
+    caches.open('raja-mantri-chor-sipahi').then(function(cache) {
       return cache.addAll([
-        './',
-        './index.html',
-        './manifest.json',
-        './assets/welcome_sound.mp3',
-        './assets/card_back.jpg',
-        './assets/icon-192.png',
-        './assets/icon-512.png'
+        '/',
+        '/raja.html',
+        '/button_click.mp3',
+        '/card_flip.mp3',
+        '/correct.mp3',
+        '/wrong.mp3',
+        '/player_turn.mp3',
+        '/win.mp3',
+        '/draw.mp3',
+        '/countdown.mp3',
+        '/wait_turn.mp3',
+        '/game-background.jpg',
+        '/menu-background.jpg',
+        '/card-back.jpg',
+        '/icon-192.png',
+        '/icon-512.png'
       ]);
     })
   );
